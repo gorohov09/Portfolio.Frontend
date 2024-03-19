@@ -1,2 +1,10 @@
 :root {
+  --font: 'Open Sans', sans-serif;;
+  --separator-color: #D4D6E0;
+  --main-text-color: rgb(27, 69, 184);
+  --main-text-color-hover: rgb(78, 117, 223);
+}
+body {
+	font-family: 'Open Sans', sans-serif;
+	margin: 0;
 }

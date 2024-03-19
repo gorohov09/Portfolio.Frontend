@@ -1,0 +1,13 @@
+.wrapper-main {
+    display: flex;
+    min-height: 100vh;
+}
+
+.wrapper-sidebar {
+    width: 15%;
+}
+
+.main-content {
+    background-color: rgb(209, 229, 255);
+    width: 100%;
+}
