@@ -13,7 +13,6 @@ export function Sidebar() {
 			<div className={styles['user']}>
 				<img src="/avatar.png" alt="Аватар пользователя" />
 				<div className={styles['name']}>Андрей Горохов</div>
-				<div className={styles['email']}>gorohov@ya.ru</div>
 			</div>
 			<div className={styles['menu']}>
 				<NavLink to='/' className={({ isActive }) => cn(styles['link'], {

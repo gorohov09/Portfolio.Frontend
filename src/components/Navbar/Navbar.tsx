@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import {
-	RestTwoTone,
 	BellTwoTone
 } from '@ant-design/icons';
 import styles from './Navbar.module.css';
@@ -22,7 +21,7 @@ export function Navbar() {
 					<BellTwoTone className={styles['item-icon']}/>
 				</div>
 				<div className={styles['item']}>
-					<RestTwoTone className={styles['item-icon']}/>
+					<img className={styles['item-icon-logout']} src='./logout.svg' alt='Иконка'/>
 				</div>
 			</div>
 		</div>

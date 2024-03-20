@@ -1,6 +1,20 @@
+import { useEffect, useState } from 'react';
+import { FileUploader } from '../../components/FileUploader/FileUploader';
+import { File } from '../../interfaces/file.interface';
+
 export function Portfolio() {
+
+	const [file, setFile] = useState<File>();
+
+	useEffect(() => {
+		console.log(file);
+	}, [file]);
     
 	return (
-		<div>Портфолио</div>
+		<FileUploader 
+			file={file} 
+			setFile={setFile} 
+			bucket={2} 
+			isDisabled={true}/>
 	);
 }

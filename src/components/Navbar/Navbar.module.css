@@ -30,6 +30,11 @@
     font-size: 25px;
 }
 
+.item-icon-logout {
+    width: 23px;
+    height: 23px;
+}
+
 .icon {
     width: 60px;
     height: 60px;

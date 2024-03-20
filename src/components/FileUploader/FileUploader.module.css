@@ -1,0 +1,11 @@
+.file-uploader {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input {
+  color: transparent;
+}
