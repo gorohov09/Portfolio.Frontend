@@ -14,7 +14,7 @@ export function FileViewer({file, isDisabled}: FileViewerProps) {
 			const response = await axios.get(`${PREFIX}/File/${file?.id}/Download`, {
 				responseType: 'blob',
 				headers: {
-					'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2MjJkYzhiZS03MTBjLTM3NjktZTk5ZC02ZmZkY2I5N2Y2YTUiLCJMb2dpbiI6Imdvcm9ob3YiLCJyb2xlIjoiU3R1ZGVudCIsIm5iZiI6MTcxMTA0NzU5MCwiZXhwIjoxNzExMDQ3ODkwLCJpYXQiOjE3MTEwNDc1OTAsImlzcyI6IklzcyIsImF1ZCI6ImF1ZGllbmNlX0F1dGgifQ.YzehkLCsvMhZehitVbxYcL7oIy2SsNbKTVIkwSSS1eTeeIvx3vJ4xwYRUUWl54MDj1tqFgyraN7mi7auxc7YGw'
+					'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2MjJkYzhiZS03MTBjLTM3NjktZTk5ZC02ZmZkY2I5N2Y2YTUiLCJMb2dpbiI6Imdvcm9ob3YiLCJyb2xlIjoiU3R1ZGVudCIsIm5iZiI6MTcxMTA2MTM5MCwiZXhwIjoxNzExNjYxMzkwLCJpYXQiOjE3MTEwNjEzOTAsImlzcyI6IklzcyIsImF1ZCI6ImF1ZGllbmNlX0F1dGgifQ.ufZo1nNBC-ec8hlxOBei0oTXxevfm7jdDXrgJZeZc8wKFKS37CglammFN5GxVoKM3g22hTfbaP82rXaRqDIV8g'
 				}
 			});
 

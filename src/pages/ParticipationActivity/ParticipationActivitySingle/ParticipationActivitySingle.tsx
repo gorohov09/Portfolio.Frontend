@@ -13,7 +13,7 @@ export function ParticipationActivitySingle() {
 		try {
 			const {data} = await axios.get<ParticipationActivity>(`${PREFIX}/ParticipationActivity/${id}`, {
 				headers: {
-					'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2MjJkYzhiZS03MTBjLTM3NjktZTk5ZC02ZmZkY2I5N2Y2YTUiLCJMb2dpbiI6Imdvcm9ob3YiLCJyb2xlIjoiU3R1ZGVudCIsIm5iZiI6MTcxMTA1NTkxMiwiZXhwIjoxNzExMDU2MjEyLCJpYXQiOjE3MTEwNTU5MTIsImlzcyI6IklzcyIsImF1ZCI6ImF1ZGllbmNlX0F1dGgifQ.BWqCYqyrmVuLsgyQ0gL6IMIChkHXhDLftnR6CXy-0S6z0mtAfLI_E6cLftXNX2KASoVcG9ondMrml_kg2fnqqg'
+					'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2MjJkYzhiZS03MTBjLTM3NjktZTk5ZC02ZmZkY2I5N2Y2YTUiLCJMb2dpbiI6Imdvcm9ob3YiLCJyb2xlIjoiU3R1ZGVudCIsIm5iZiI6MTcxMTA2MTM5MCwiZXhwIjoxNzExNjYxMzkwLCJpYXQiOjE3MTEwNjEzOTAsImlzcyI6IklzcyIsImF1ZCI6ImF1ZGllbmNlX0F1dGgifQ.ufZo1nNBC-ec8hlxOBei0oTXxevfm7jdDXrgJZeZc8wKFKS37CglammFN5GxVoKM3g22hTfbaP82rXaRqDIV8g'
 				}
 			});
 			setParticipationActivity(data);
@@ -29,7 +29,7 @@ export function ParticipationActivitySingle() {
 
 	return (
 		<div>
-			<ParticipationActivityModal participationActivity={participationActivity}/>
+			<ParticipationActivityModal participationActivity={participationActivity} setParticipationActivity={setParticipationActivity}/>
 		</div>
 	);
 }
