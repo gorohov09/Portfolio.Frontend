@@ -5,6 +5,7 @@ import { MainLayout } from './layouts/Main/MainLayout';
 import { Portfolio } from './pages/Portfolio/Portfolio';
 import { ParticipationActivities } from './pages/ParticipationActivity/ParticipationActivities/ParticipationActivities';
 import './index.css';
+import { ParticipationActivitySingle } from './pages/ParticipationActivity/ParticipationActivitySingle/ParticipationActivitySingle';
 
 const router = createBrowserRouter([
 	{
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
 			{
 				path: '/participationActivities',
 				element: <ParticipationActivities />
+			},
+			{
+				path: '/participationActivities/:id',
+				element: <ParticipationActivitySingle />
 			}
 		]
 	}

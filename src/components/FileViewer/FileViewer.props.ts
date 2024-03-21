@@ -1,4 +1,4 @@
-import { File } from '../../interfaces/file.interface';
+import { File } from '../../core/interfaces/file.interface';
 
 export interface FileViewerProps {
     file: File | undefined;

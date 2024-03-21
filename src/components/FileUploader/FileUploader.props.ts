@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { File } from '../../interfaces/file.interface';
+import { File } from '../../core/interfaces/file.interface';
 
 export interface FileUploaderProps {
     file: File | undefined;

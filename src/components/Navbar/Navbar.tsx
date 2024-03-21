@@ -11,7 +11,7 @@ export function Navbar() {
 			<div className={styles['top']}>
 				<Link className={styles['link']} to="/">
 					<div className={styles['header']}>
-						<img className={styles['icon']} src='./starship.svg' alt='Иконка'/>
+						<img className={styles['icon']} src='/starship.svg' alt='Иконка'/>
 						<h1 className={styles['h1']}>Цифровое портфолио</h1>
 					</div>
 				</Link>
@@ -21,7 +21,7 @@ export function Navbar() {
 					<BellTwoTone className={styles['item-icon']}/>
 				</div>
 				<div className={styles['item']}>
-					<img className={styles['item-icon-logout']} src='./logout.svg' alt='Иконка'/>
+					<img className={styles['item-icon-logout']} src='/logout.svg' alt='Иконка'/>
 				</div>
 			</div>
 		</div>

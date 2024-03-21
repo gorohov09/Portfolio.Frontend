@@ -1,7 +1,7 @@
 import { FileUploaderProps } from './FileUploader.props';
 import styles from './FileUploader.module.css';
 import axios from 'axios';
-import { File } from '../../interfaces/file.interface';
+import { File } from '../../core/interfaces/file.interface';
 import { PREFIX } from '../../helpers/API';
 import { FileViewer } from '../FileViewer/FileViewer';
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FileUploader } from '../../components/FileUploader/FileUploader';
-import { File } from '../../interfaces/file.interface';
+import { File } from '../../core/interfaces/file.interface';
 
 export function Portfolio() {
 
