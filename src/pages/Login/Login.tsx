@@ -6,6 +6,7 @@ import { FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { login, userActions } from '../../store/slices/user.slice';
+import { Role } from '../../core/enums/role.enum';
 
 export type LoginForm = {
     login: {
@@ -19,13 +20,16 @@ export type LoginForm = {
 export function Login() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
-	const { jwt, loginErrorMessage } = useSelector((s: RootState) => s.user);
+	const { jwt, role, loginErrorMessage } = useSelector((s: RootState) => s.user);
 
 	useEffect(() => {
 		if (jwt) {
-			navigate('/');
+			if (role === Role.Student)
+				navigate('/');
+			else
+				navigate('/admin');
 		}
-	}, [jwt, navigate]);
+	}, [jwt, role, navigate]);
 
 	const submit = (e: FormEvent) => {
 		e.preventDefault();

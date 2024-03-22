@@ -10,5 +10,6 @@ export interface ParticipationActivity {
     date: string;
     description: string;
     document: File;
+    comment: string | null;
     canEdit: boolean;
 }

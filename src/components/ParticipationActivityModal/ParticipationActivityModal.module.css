@@ -39,3 +39,20 @@
     flex-direction: column;
     gap: 7px;
 }
+
+.participation-activity-comment-block {
+    margin-top: 10px;
+}
+
+.participation-activity-comment {
+    font-size: 12px;
+    color: rgb(255, 65, 65);
+}
+
+.participation-activity-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}

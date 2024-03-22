@@ -45,6 +45,24 @@ export function ParticipationActivitySingle() {
 		}
 	};
 
+	const onSubmitParticipationActivity = async () => {
+		try {
+			await axios.post(`${PREFIX}/ParticipationActivity/Submit`, {
+				id: participationActivity?.id
+			}, {
+				headers: {
+					'Authorization': `Bearer ${jwt}`
+				}
+			});
+
+			await getParticipationActivity();
+
+		} catch (e) {
+			console.error(e);
+			return;
+		}
+	};
+
 	useEffect(() => {
 		getParticipationActivity();
 	}, []);
@@ -54,7 +72,8 @@ export function ParticipationActivitySingle() {
 			<ParticipationActivityModal 
 				participationActivity={participationActivity} 
 				setParticipationActivity={setParticipationActivity}
-				onSaveParticipationActivity={onSaveParticipationActivity}/>
+				onSaveParticipationActivity={onSaveParticipationActivity}
+				onSubmitParticipationActivity={onSubmitParticipationActivity}/>
 		</div>
 	);
 }

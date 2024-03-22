@@ -12,11 +12,13 @@ import { Register } from './pages/Register/Register';
 import { RequireAuth } from './helpers/RequireAuth';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import { Role } from './core/enums/role.enum';
+import { AdminLayout } from './layouts/Admin/AdminLayout';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <RequireAuth><MainLayout /></RequireAuth>,
+		element: <RequireAuth userRole={Role.Student}><MainLayout /></RequireAuth>,
 		children: [
 			{
 				path: '/',
@@ -44,6 +46,12 @@ const router = createBrowserRouter([
 				path: 'register',
 				element: <Register />
 			}
+		]
+	},
+	{
+		path: '/admin',
+		element: <RequireAuth userRole={Role.Manager}><AdminLayout /></RequireAuth> ,
+		children: [
 		]
 	}
 ]);

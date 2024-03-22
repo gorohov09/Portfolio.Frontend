@@ -28,7 +28,12 @@ const participationActivityResults = [
 ];
 
 
-export function ParticipationActivityModal({ participationActivity, setParticipationActivity, onSaveParticipationActivity }: ParticipationActivityModalProps) {
+export function ParticipationActivityModal({ 
+	participationActivity, 
+	setParticipationActivity, 
+	onSaveParticipationActivity,
+	onSubmitParticipationActivity }: ParticipationActivityModalProps) {
+
 	const navigate = useNavigate();
 	const role = useSelector((s: RootState) => s.user.role) as Role;
 
@@ -82,6 +87,11 @@ export function ParticipationActivityModal({ participationActivity, setParticipa
 		if (role == Role.Student) {
 			if (participationActivity?.status === ParticipationActivityStatus.Draft) {
 				buttons.push(<Button className="button" onClick={onSaveParticipationActivity}>Сохранить</Button>);
+				buttons.push(<Button className="button" onClick={onSubmitParticipationActivity}>Подать</Button>);
+			}
+			if (participationActivity?.status === ParticipationActivityStatus.SentRevision) {
+				buttons.push(<Button className="button" onClick={onSaveParticipationActivity}>Сохранить</Button>);
+				buttons.push(<Button className="button" onClick={onSubmitParticipationActivity}>Подать</Button>);
 			}
 		}
 
@@ -95,6 +105,12 @@ export function ParticipationActivityModal({ participationActivity, setParticipa
 
 				<div className={styles['participation-activity-status-block']}>
 					<span>{getParticipationActivityStatusToString(participationActivity?.status)}</span>
+					{participationActivity?.comment && participationActivity.status == ParticipationActivityStatus.SentRevision
+						? <div className={styles['participation-activity-comment-block']}>
+							<span>Комментарий от администратора: </span>
+							<span className={styles['participation-activity-comment']}>{participationActivity.comment}</span>
+						</div>
+						: <></>}
 				</div>
 
 				<div className={styles['participation-activity-information-block']}>
@@ -155,7 +171,7 @@ export function ParticipationActivityModal({ participationActivity, setParticipa
 					</div>
 				</div>
 
-				<div>
+				<div className={styles['participation-activity-buttons']}>
 					{renderButtons()}
 				</div>
 			</div>
