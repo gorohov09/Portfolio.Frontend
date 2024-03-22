@@ -1,13 +1,16 @@
 import { ParticipationActivityModalProps } from './ParticipationActivityModal.props';
 import { useNavigate } from 'react-router-dom';
 import styles from './ParticipationActivityModal.module.css';
-import { DatePicker, DatePickerProps, Select } from 'antd';
+import { DatePicker, DatePickerProps, Select, Button } from 'antd';
 import { ParticipationActivityResult } from '../../core/enums/participationActivity/participationActivityResult.enum';
 import dayjs from 'dayjs';
 import TextArea from 'antd/es/input/TextArea';
 import { FileUploader } from '../FileUploader/FileUploader';
 import { File } from '../../core/interfaces/file.interface';
-import { getParticipationActivityStatusToString } from '../../core/enums/participationActivity/participationActivityStatus.enum';
+import { ParticipationActivityStatus, getParticipationActivityStatusToString } from '../../core/enums/participationActivity/participationActivityStatus.enum';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { Role } from '../../core/enums/role.enum';
 
 const participationActivityResults = [
 	{
@@ -25,8 +28,9 @@ const participationActivityResults = [
 ];
 
 
-export function ParticipationActivityModal({ participationActivity, setParticipationActivity }: ParticipationActivityModalProps) {
+export function ParticipationActivityModal({ participationActivity, setParticipationActivity, onSaveParticipationActivity }: ParticipationActivityModalProps) {
 	const navigate = useNavigate();
+	const role = useSelector((s: RootState) => s.user.role) as Role;
 
 	const onChangeResult = (value: ParticipationActivityResult) => {
 		if (participationActivity === undefined) {
@@ -72,7 +76,17 @@ export function ParticipationActivityModal({ participationActivity, setParticipa
 		});
 	};
 
-	console.log(participationActivity);
+	const renderButtons = () => {
+		const buttons = [];
+
+		if (role == Role.Student) {
+			if (participationActivity?.status === ParticipationActivityStatus.Draft) {
+				buttons.push(<Button className="button" onClick={onSaveParticipationActivity}>Сохранить</Button>);
+			}
+		}
+
+		return buttons;
+	};
     
 	return (
 		<div className={styles['participation-activity-modal'] } onClick={() => navigate('/participationActivities')}>
@@ -139,6 +153,10 @@ export function ParticipationActivityModal({ participationActivity, setParticipa
 							setFile={onChangeFile}
 							isDisabled={!participationActivity?.canEdit}/>
 					</div>
+				</div>
+
+				<div>
+					{renderButtons()}
 				</div>
 			</div>
 		</div>

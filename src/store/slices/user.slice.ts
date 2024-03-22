@@ -8,16 +8,22 @@ export const JWT_PERSISTENT_STATE = 'userData';
 
 export interface UserPersistentState {
     jwt: string | null;
+	role: string | null;
+	fullName: string | null;
 }
 
 export interface UserState {
     jwt: string | null;
+	role: string | null;
     loginErrorMessage?: string;
+	fullName: string | null;
 }
 
 const initialState: UserState = {
 	jwt: loadState<UserPersistentState>(JWT_PERSISTENT_STATE)?.jwt ?? null,
-	loginErrorMessage: undefined
+	role: loadState<UserPersistentState>(JWT_PERSISTENT_STATE)?.role ?? null,
+	loginErrorMessage: undefined,
+	fullName: loadState<UserPersistentState>(JWT_PERSISTENT_STATE)?.fullName ?? null
 };
 
 export const login = createAsyncThunk('user/login',
@@ -36,6 +42,8 @@ export const userSlice = createSlice({
 	reducers: {
 		logout: (state) => {
 			state.jwt = null;
+			state.role = null;
+			state.fullName = null;
 		},
 		clearLoginError: (state) => {
 			state.loginErrorMessage = undefined;
@@ -44,6 +52,8 @@ export const userSlice = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(login.fulfilled, (state, action: PayloadAction<LoginResponse>) => {
 			state.jwt = action.payload.token;
+			state.role = action.payload.role;
+			state.fullName = action.payload.fullName;
 		});
 		builder.addCase(login.rejected, (state, action) => {
 			state.loginErrorMessage = action.error.message;

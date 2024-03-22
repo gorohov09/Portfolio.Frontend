@@ -2,8 +2,11 @@ import styles from './FileViewer.module.css';
 import axios from 'axios';
 import { PREFIX } from '../../helpers/API';
 import { FileViewerProps } from './FileViewer.props';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 export function FileViewer({file, isDisabled}: FileViewerProps) {
+	const jwt = useSelector((s: RootState) => s.user.jwt);
 
 	const downloadFile = async () => {
 		if (isDisabled) {
@@ -14,7 +17,7 @@ export function FileViewer({file, isDisabled}: FileViewerProps) {
 			const response = await axios.get(`${PREFIX}/File/${file?.id}/Download`, {
 				responseType: 'blob',
 				headers: {
-					'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2MjJkYzhiZS03MTBjLTM3NjktZTk5ZC02ZmZkY2I5N2Y2YTUiLCJMb2dpbiI6Imdvcm9ob3YiLCJyb2xlIjoiU3R1ZGVudCIsIm5iZiI6MTcxMTA2MTM5MCwiZXhwIjoxNzExNjYxMzkwLCJpYXQiOjE3MTEwNjEzOTAsImlzcyI6IklzcyIsImF1ZCI6ImF1ZGllbmNlX0F1dGgifQ.ufZo1nNBC-ec8hlxOBei0oTXxevfm7jdDXrgJZeZc8wKFKS37CglammFN5GxVoKM3g22hTfbaP82rXaRqDIV8g'
+					'Authorization': `Bearer ${jwt}`
 				}
 			});
 

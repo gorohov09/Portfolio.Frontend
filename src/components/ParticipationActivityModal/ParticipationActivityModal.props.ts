@@ -4,4 +4,5 @@ import { ParticipationActivity } from '../../core/interfaces/participationActivi
 export interface ParticipationActivityModalProps {
     participationActivity: ParticipationActivity | undefined;
     setParticipationActivity: Dispatch<SetStateAction<ParticipationActivity | undefined>>;
+    onSaveParticipationActivity: () => void;
 }
