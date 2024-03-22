@@ -3,12 +3,16 @@ import {
 	BellTwoTone
 } from '@ant-design/icons';
 import styles from './Navbar.module.css';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { userActions } from '../../store/slices/user.slice';
 
 export function Navbar() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const logout = () => {
-		localStorage.removeItem('jwt');
+		dispatch(userActions.logout());
 		navigate('/auth/login');
 	};
     
