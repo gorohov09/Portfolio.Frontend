@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import TextArea from 'antd/es/input/TextArea';
 import { FileUploader } from '../FileUploader/FileUploader';
 import { File } from '../../core/interfaces/file.interface';
+import { getParticipationActivityStatusToString } from '../../core/enums/participationActivity/participationActivityStatus.enum';
 
 const participationActivityResults = [
 	{
@@ -70,6 +71,8 @@ export function ParticipationActivityModal({ participationActivity, setParticipa
 			document: file
 		});
 	};
+
+	console.log(participationActivity);
     
 	return (
 		<div className={styles['participation-activity-modal'] } onClick={() => navigate('/participationActivities')}>
@@ -77,19 +80,19 @@ export function ParticipationActivityModal({ participationActivity, setParticipa
 				onClick={e => e.stopPropagation()}>
 
 				<div className={styles['participation-activity-status-block']}>
-					<span>Подано</span>
+					<span>{getParticipationActivityStatusToString(participationActivity?.status)}</span>
 				</div>
 
-				<div className="participation-activity-information-block">
+				<div className={styles['participation-activity-information-block']}>
 
-					<div className="participation-activity-information-block-item">
+					<div className={styles['participation-activity-information-block-item']}>
 						<div className="participation-activity-information-block-item-helper">
 							<span>Выберите результат участия</span>
 						</div>
 
 						<div className="participation-activity-information-block-item-element">
 							<Select
-								disabled={participationActivity?.canEdit}
+								disabled={!participationActivity?.canEdit}
 								value={participationActivity?.result}
 								style={{
 									width: 300
@@ -100,25 +103,25 @@ export function ParticipationActivityModal({ participationActivity, setParticipa
 						</div>
 					</div>
 
-					<div className="participation-activity-information-block-item">
+					<div className={styles['participation-activity-information-block-item']}>
 						<div className="participation-activity-information-block-item-helper">
 							<span>Выберите дату участия</span>
 						</div>
 
 						<div className="participation-activity-information-block-item-element">
-							<DatePicker disabled={participationActivity?.canEdit} 
-								value={dayjs(participationActivity?.date)}
+							<DatePicker disabled={!participationActivity?.canEdit} 
+								value={participationActivity?.date ? dayjs(participationActivity?.date) : null}
 								onChange={onChangeDate} />
 						</div>
 					</div>
 
-					<div className="participation-activity-information-block-item">
+					<div className={styles['participation-activity-information-block-item']}>
 						<div className="participation-activity-information-block-item-helper">
 							<span>Опишите свое участие</span>
 						</div>
 
 						<div className="participation-activity-information-block-item-element">
-							<TextArea disabled={participationActivity?.canEdit} value={participationActivity?.description} 
+							<TextArea disabled={!participationActivity?.canEdit} value={participationActivity?.description} 
 								rows={5} 
 								placeholder="Опишите..." 
 								maxLength={1000} 
@@ -126,7 +129,7 @@ export function ParticipationActivityModal({ participationActivity, setParticipa
 						</div>
 					</div>
 
-					<div className="participation-activity-information-block-item">
+					<div className={styles['participation-activity-information-block-item']}>
 						<div className="participation-activity-information-block-item-helper">
 							<span>Загрузите файл подтверждающий участие</span>
 						</div>
@@ -134,7 +137,7 @@ export function ParticipationActivityModal({ participationActivity, setParticipa
 						<FileUploader 
 							file={participationActivity?.document} bucket={2} 
 							setFile={onChangeFile}
-							isDisabled={participationActivity ? participationActivity.canEdit : false}/>
+							isDisabled={!participationActivity?.canEdit}/>
 					</div>
 				</div>
 			</div>

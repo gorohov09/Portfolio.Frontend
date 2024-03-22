@@ -26,3 +26,16 @@
     transition: 0.4s all;
     transform: scale(1);
 }
+
+.participation-activity-information-block {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.participation-activity-information-block-item {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}

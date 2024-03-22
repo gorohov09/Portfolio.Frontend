@@ -5,7 +5,11 @@ export enum ParticipationActivityStatus {
     Approved = 4,
 }
 
-export function getParticipationActivityStatusToString(status: ParticipationActivityStatus | ''){
+export function getParticipationActivityStatusToString(status: ParticipationActivityStatus | undefined){
+	if (status == undefined) {
+		return '';
+	}
+
 	switch(status) { 
 	case ParticipationActivityStatus.Draft: { 
 		return 'Черновик';
