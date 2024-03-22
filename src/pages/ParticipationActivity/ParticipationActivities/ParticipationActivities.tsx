@@ -27,7 +27,6 @@ export function ParticipationActivities() {
 	};
 
 	const addParticipationActivity = async () => {
-		console.log('dddd');
 		const {data} = await axios.post(`${PREFIX}/ParticipationActivity`, {}, {
 			headers: {
 				'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI2MjJkYzhiZS03MTBjLTM3NjktZTk5ZC02ZmZkY2I5N2Y2YTUiLCJMb2dpbiI6Imdvcm9ob3YiLCJyb2xlIjoiU3R1ZGVudCIsIm5iZiI6MTcxMTA5NTU5NCwiZXhwIjoxNzExNjk1NTk0LCJpYXQiOjE3MTEwOTU1OTQsImlzcyI6IklzcyIsImF1ZCI6ImF1ZGllbmNlX0F1dGgifQ.WNgX7nJnbvUXOppNzHbrCtXtwLr8LlCHDTNsSEmol80NuRwtE815L55vYdQdD0JFEyLrVjgw5kWf7WDx-izUYQ'

@@ -6,11 +6,15 @@ import { Portfolio } from './pages/Portfolio/Portfolio';
 import { ParticipationActivities } from './pages/ParticipationActivity/ParticipationActivities/ParticipationActivities';
 import './index.css';
 import { ParticipationActivitySingle } from './pages/ParticipationActivity/ParticipationActivitySingle/ParticipationActivitySingle';
+import { AuthLayout } from './layouts/Auth/AuthLayout';
+import { Login } from './pages/Login/Login';
+import { Register } from './pages/Register/Register';
+import { RequireAuth } from './helpers/RequireAuth';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <MainLayout />,
+		element: <RequireAuth><MainLayout /></RequireAuth>,
 		children: [
 			{
 				path: '/',
@@ -23,6 +27,20 @@ const router = createBrowserRouter([
 			{
 				path: '/participationActivities/:id',
 				element: <ParticipationActivitySingle />
+			}
+		]
+	},
+	{
+		path: '/auth',
+		element: <AuthLayout />,
+		children: [
+			{
+				path: 'login',
+				element: <Login />
+			},
+			{
+				path: 'register',
+				element: <Register />
 			}
 		]
 	}

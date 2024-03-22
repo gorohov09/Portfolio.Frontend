@@ -1,10 +1,16 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
 	BellTwoTone
 } from '@ant-design/icons';
 import styles from './Navbar.module.css';
 
 export function Navbar() {
+	const navigate = useNavigate();
+
+	const logout = () => {
+		localStorage.removeItem('jwt');
+		navigate('/auth/login');
+	};
     
 	return (
 		<div className={styles['navbar']}>
@@ -20,7 +26,7 @@ export function Navbar() {
 				<div className={styles['item']}>
 					<BellTwoTone className={styles['item-icon']}/>
 				</div>
-				<div className={styles['item']}>
+				<div className={styles['item']} onClick={logout}>
 					<img className={styles['item-icon-logout']} src='/logout.svg' alt='Иконка'/>
 				</div>
 			</div>
