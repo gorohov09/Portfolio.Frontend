@@ -19,7 +19,7 @@ export function Sidebar() {
 				<div className={styles['name']}>{ fullName }</div>
 			</div>
 			<div className={styles['menu']}>
-				<NavLink to='/' className={({ isActive }) => cn(styles['link'], {
+				<NavLink to='/portfolio' className={({ isActive }) => cn(styles['link'], {
 					[styles.active]: isActive
 				})}>
 					<div className={styles['menu-item']}>
