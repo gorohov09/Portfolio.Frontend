@@ -41,11 +41,13 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/participationActivities',
-				element: <ParticipationActivities />
-			},
-			{
-				path: '/participationActivities/:id',
-				element: <ParticipationActivitySingle />
+				element: <ParticipationActivities />,
+				children: [
+					{
+						path: ':id',
+						element: <ParticipationActivitySingle />
+					}
+				]
 			}
 		]
 	},
