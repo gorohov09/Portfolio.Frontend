@@ -133,84 +133,56 @@ export function ParticipationActivityModal({
 				onClick={e => e.stopPropagation()}>
 
 				<div className={styles['participation-activity-status-block']}>
-					<span>{getParticipationActivityStatusToString(participationActivity?.status)}</span>
+					<span>{getParticipationActivityStatusToString(participationActivity?.status)} </span>
 					{participationActivity?.comment && participationActivity.status == ParticipationActivityStatus.SentRevision
-						? <div className={styles['participation-activity-comment-block']}>
-							<span>Комментарий от администратора: </span>
-							<span className={styles['participation-activity-comment']}>{participationActivity.comment}</span>
-						</div>
+						? <span className={styles['participation-activity-comment']}>({participationActivity.comment})</span>
 						: <></>}
 				</div>
 
-				<div className={styles['participation-activity-information-block']}>
-
-					<div className={styles['participation-activity-information-block-item']}>
-						<div className="participation-activity-information-block-item-helper">
-							<span>Выберите мероприятие, в котором участвовали</span>
-						</div>
-
-						<div className="participation-activity-information-block-item-element">
-							<Select
-								disabled={!participationActivity?.canEdit}
-								value={null}
-								style={{
-									width: 300
-								}}
-								onChange={onChangeActivity}
-								options={activityNamesOptions}
-							/>
-						</div>
+				<div className={styles['form']}>
+					<div className={styles['field']}>
+						<label>Выберите мероприятие, в котором участвовали</label>
+						<Select
+							disabled={!participationActivity?.canEdit}
+							value={null}
+							style={{
+								width: 300
+							}}
+							onChange={onChangeActivity}
+							options={activityNamesOptions}
+						/>
+					</div>
+					<div className={styles['field']}>
+						<label>Выберите результат участия</label>
+						<Select
+							disabled={!participationActivity?.canEdit}
+							value={participationActivity?.result}
+							style={{
+								width: 300
+							}}
+							onChange={onChangeResult}
+							options={participationActivityResults}
+						/>
 					</div>
 
-					<div className={styles['participation-activity-information-block-item']}>
-						<div className="participation-activity-information-block-item-helper">
-							<span>Выберите результат участия</span>
-						</div>
-
-						<div className="participation-activity-information-block-item-element">
-							<Select
-								disabled={!participationActivity?.canEdit}
-								value={participationActivity?.result}
-								style={{
-									width: 300
-								}}
-								onChange={onChangeResult}
-								options={participationActivityResults}
-							/>
-						</div>
+					<div className={styles['field']}>
+						<label>Выберите дату участия</label>
+						<DatePicker disabled={!participationActivity?.canEdit} 
+							value={participationActivity?.date ? dayjs(participationActivity?.date) : null}
+							onChange={onChangeDate} />
 					</div>
 
-					<div className={styles['participation-activity-information-block-item']}>
-						<div className="participation-activity-information-block-item-helper">
-							<span>Выберите дату участия</span>
-						</div>
-
-						<div className="participation-activity-information-block-item-element">
-							<DatePicker disabled={!participationActivity?.canEdit} 
-								value={participationActivity?.date ? dayjs(participationActivity?.date) : null}
-								onChange={onChangeDate} />
-						</div>
+					<div className={styles['field']}>
+						<label>Опишите свое участие</label>
+						<TextArea disabled={!participationActivity?.canEdit} value={participationActivity?.description} 
+							rows={5} 
+							placeholder="Опишите..." 
+							maxLength={1000} 
+							onChange={onChangeDescription}/>
 					</div>
 
-					<div className={styles['participation-activity-information-block-item']}>
-						<div className="participation-activity-information-block-item-helper">
-							<span>Опишите свое участие</span>
-						</div>
-
-						<div className="participation-activity-information-block-item-element">
-							<TextArea disabled={!participationActivity?.canEdit} value={participationActivity?.description} 
-								rows={5} 
-								placeholder="Опишите..." 
-								maxLength={1000} 
-								onChange={onChangeDescription}/>
-						</div>
-					</div>
-
-					<div className={styles['participation-activity-information-block-item']}>
-						<div className="participation-activity-information-block-item-helper">
-							<span>Загрузите файл подтверждающий участие</span>
-						</div>
-
+					<div className={styles['field']}>
+						<label>Загрузите файл подтверждающий участие</label>
 						<FileUploader 
 							file={participationActivity?.document} bucket={2} 
 							setFile={onChangeFile}

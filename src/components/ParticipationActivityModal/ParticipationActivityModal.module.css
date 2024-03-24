@@ -21,27 +21,33 @@
     border-radius: 12px;
     background-color: white;
     width: 500px;
-    height: 650px;
     transform: scale(0.5);
     transition: 0.4s all;
     transform: scale(1);
 }
 
-.participation-activity-information-block {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.form {
+    margin-top: 6px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
 
-.participation-activity-information-block-item {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.field label {
+	color: #C4C4C4;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
 }
 
 .participation-activity-comment-block {
-    margin-top: 10px;
+    margin-top: 6px;
 }
 
 .participation-activity-comment {
@@ -50,7 +56,7 @@
 }
 
 .participation-activity-buttons {
-    margin-top: 10px;
+    margin-top: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
