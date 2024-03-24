@@ -6,7 +6,7 @@ import { ParticipationActivitiesTable } from '../../../components/ParticipationA
 import { ParticipationActivityBaseResponse } from '../../../core/interfaces/participationActivity/participationActivityBaseResponse.interface';
 import styles from './ParticipationActivities.module.css';
 import { Button } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 
@@ -47,6 +47,7 @@ export function ParticipationActivities() {
 		<div className={styles['participation-activities-page']}>
 			<Button onClick={addParticipationActivity}>Добавить мероприятие</Button>
 			<ParticipationActivitiesTable participationActivities={participationActivities} />
+			<Outlet />
 		</div>
 	);
 }

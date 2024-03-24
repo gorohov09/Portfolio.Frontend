@@ -9,11 +9,17 @@ import { Link } from 'react-router-dom';
 
 interface ParticipationActivityTableDataType {
     id: Guid
+	activity: ActivityTableDataType | null;
     status: string;
     result: string;
     date: string;
     creationDate: string;
     updateDate: string;
+}
+
+interface ActivityTableDataType {
+	id: Guid;
+	name: string;
 }
 
 const columns: TableProps<ParticipationActivityTableDataType>['columns'] = [
@@ -22,6 +28,12 @@ const columns: TableProps<ParticipationActivityTableDataType>['columns'] = [
 		dataIndex: 'id',
 		key: 'id',
 		render: (id) => <Link to={`${id}`}>Перейти</Link>
+	},
+	{
+		title: 'Мероприятие',
+		dataIndex: 'activity',
+		key: 'activity',
+		render: (activity) => activity ? <Link to={`/activities/${activity.id}`}>{activity.name}</Link> : <>Не заполнено</>
 	},
 	{
 		title: 'Статус',
@@ -56,6 +68,10 @@ export function ParticipationActivitiesTable({ participationActivities }: Partic
 	useEffect(() => {
 		const data = participationActivities.map<ParticipationActivityTableDataType>(item => ({
 			id: item.id,
+			activity: item.activity ? {
+				id: item.activity.id,
+				name: item.activity.name
+			} : null,
 			status: getParticipationActivityStatusToString(item.status),
 			result: getParticipationActivityResultToString(item.result),
 			date: item.date ? item.date.split('T')[0] : '',
@@ -64,8 +80,6 @@ export function ParticipationActivitiesTable({ participationActivities }: Partic
 		}));
 		setData(data);
 	}, [participationActivities]);
-
-	console.log(data);
     
 	return (
 		<div className={styles['participation-activities-table']}>

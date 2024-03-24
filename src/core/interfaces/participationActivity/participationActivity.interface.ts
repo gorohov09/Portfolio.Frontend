@@ -5,6 +5,7 @@ import { File } from '../file.interface';
 
 export interface ParticipationActivity {
     id: Guid;
+    activity: Activity | null | undefined;
     status: ParticipationActivityStatus;
     result: ParticipationActivityResult;
     date: string;
@@ -12,4 +13,9 @@ export interface ParticipationActivity {
     document: File;
     comment: string | null;
     canEdit: boolean;
+}
+
+export interface Activity {
+    id: Guid;
+    name: string;
 }
