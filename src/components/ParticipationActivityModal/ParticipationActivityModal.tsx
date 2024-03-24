@@ -11,6 +11,8 @@ import { ParticipationActivityStatus, getParticipationActivityStatusToString } f
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { Role } from '../../core/enums/role.enum';
+import { Guid } from 'guid-typescript';
+import { useEffect } from 'react';
 
 const participationActivityResults = [
 	{
@@ -27,15 +29,40 @@ const participationActivityResults = [
 	}
 ];
 
+type ActivityNameOption = {
+	label: string;
+	value: Guid
+}
+
+let activityNamesOptions: ActivityNameOption[] | undefined = [];
+
 
 export function ParticipationActivityModal({ 
 	participationActivity, 
+	activityNames,
 	setParticipationActivity, 
 	onSaveParticipationActivity,
 	onSubmitParticipationActivity }: ParticipationActivityModalProps) {
 
 	const navigate = useNavigate();
 	const role = useSelector((s: RootState) => s.user.role) as Role;
+
+	useEffect(() => {
+		activityNamesOptions = activityNames?.map<ActivityNameOption>(el => {
+			return {
+				label: el.name,
+				value: el.id
+			};
+		});
+	}, [activityNames]);
+
+	const onChangeActivity = (value: ActivityNameOption) => {
+		if (participationActivity === undefined) {
+			return;
+		}
+
+		console.log(value);
+	};
 
 	const onChangeResult = (value: ParticipationActivityResult) => {
 		if (participationActivity === undefined) {
@@ -97,6 +124,8 @@ export function ParticipationActivityModal({
 
 		return buttons;
 	};
+
+	console.log(activityNamesOptions);
     
 	return (
 		<div className={styles['participation-activity-modal'] } onClick={() => navigate('/participationActivities')}>
@@ -114,6 +143,24 @@ export function ParticipationActivityModal({
 				</div>
 
 				<div className={styles['participation-activity-information-block']}>
+
+					<div className={styles['participation-activity-information-block-item']}>
+						<div className="participation-activity-information-block-item-helper">
+							<span>Выберите мероприятие, в котором участвовали</span>
+						</div>
+
+						<div className="participation-activity-information-block-item-element">
+							<Select
+								disabled={!participationActivity?.canEdit}
+								value={null}
+								style={{
+									width: 300
+								}}
+								onChange={onChangeActivity}
+								options={activityNamesOptions}
+							/>
+						</div>
+					</div>
 
 					<div className={styles['participation-activity-information-block-item']}>
 						<div className="participation-activity-information-block-item-helper">

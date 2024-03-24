@@ -6,10 +6,13 @@ import axios from 'axios';
 import { ParticipationActivityModal } from '../../../components/ParticipationActivityModal/ParticipationActivityModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
+import { ActivityName } from '../../../core/interfaces/activities/activityName.interface';
+import { ActivityNamesBaseResponse } from '../../../core/interfaces/activities/activityNamesBaseResponse.interface';
 
 export function ParticipationActivitySingle() {
 	const { id } = useParams();
 	const [participationActivity, setParticipationActivity] = useState<ParticipationActivity>();
+	const [activityNames, setActivityNames] = useState<ActivityName[]>();
 	const jwt = useSelector((s: RootState) => s.user.jwt);
 
 	const getParticipationActivity = async () => {
@@ -20,6 +23,20 @@ export function ParticipationActivitySingle() {
 				}
 			});
 			setParticipationActivity(data);
+		} catch (e) {
+			console.error(e);
+			return;
+		}
+	};
+
+	const getActivityNames = async () => {
+		try {
+			const {data} = await axios.get<ActivityNamesBaseResponse>(`${PREFIX}/Activity/list/names`, {
+				headers: {
+					'Authorization': `Bearer ${jwt}`
+				}
+			});
+			setActivityNames(data.entities);
 		} catch (e) {
 			console.error(e);
 			return;
@@ -65,12 +82,14 @@ export function ParticipationActivitySingle() {
 
 	useEffect(() => {
 		getParticipationActivity();
+		getActivityNames();
 	}, []);
 
 	return (
 		<div>
 			<ParticipationActivityModal 
 				participationActivity={participationActivity} 
+				activityNames={activityNames}
 				setParticipationActivity={setParticipationActivity}
 				onSaveParticipationActivity={onSaveParticipationActivity}
 				onSubmitParticipationActivity={onSubmitParticipationActivity}/>

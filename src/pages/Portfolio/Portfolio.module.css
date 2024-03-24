@@ -1,0 +1,28 @@
+.portfolio {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 15px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.information-block {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid var(--separator-color);
+}
+
+.fio {
+    display: flex;
+    flex-direction: column;
+}
+
+.lastname_firstname {
+    display: flex;
+    gap: 8px;
+}

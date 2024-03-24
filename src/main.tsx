@@ -14,6 +14,9 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { Role } from './core/enums/role.enum';
 import { AdminLayout } from './layouts/Admin/AdminLayout';
+import { Main } from './pages/Main/Main';
+import { AddGeneralInformation } from './pages/Portfolio/AddGeneralInformation/AddGeneralInformation';
+import { AddEducationInformation } from './pages/Portfolio/AddEducationInformation/AddEducationInformation';
 
 const router = createBrowserRouter([
 	{
@@ -22,7 +25,19 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: '/',
+				element: <Main />
+			},
+			{
+				path: '/portfolio',
 				element: <Portfolio />
+			},
+			{
+				path: '/addGeneralInformation',
+				element: <AddGeneralInformation />
+			},
+			{
+				path: '/addEducationInformation',
+				element: <AddEducationInformation />
 			},
 			{
 				path: '/participationActivities',
