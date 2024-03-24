@@ -4,9 +4,15 @@ import { ParticipationActivityResult } from '../../enums/participationActivity/p
 
 export interface ParticipationActivityTable {
     id: Guid;
+    activity: ActivityTable | null;
     status: ParticipationActivityStatus;
     result: ParticipationActivityResult;
     date: string;
     creationDate: string;
     updateDate: string;
+}
+
+export interface ActivityTable {
+    id: Guid;
+    name: string;
 }

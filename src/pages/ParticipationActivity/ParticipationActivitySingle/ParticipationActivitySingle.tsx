@@ -50,7 +50,8 @@ export function ParticipationActivitySingle() {
 				result: participationActivity?.result,
 				date: participationActivity?.date,
 				description: participationActivity?.description,
-				fileId: participationActivity?.document?.id
+				fileId: participationActivity?.document?.id,
+				activityId: participationActivity?.activity?.id
 			}, {
 				headers: {
 					'Authorization': `Bearer ${jwt}`

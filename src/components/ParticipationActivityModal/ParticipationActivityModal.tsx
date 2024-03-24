@@ -13,6 +13,7 @@ import { RootState } from '../../store/store';
 import { Role } from '../../core/enums/role.enum';
 import { Guid } from 'guid-typescript';
 import { useEffect } from 'react';
+import { Activity } from '../../core/interfaces/participationActivity/participationActivity.interface';
 
 const participationActivityResults = [
 	{
@@ -61,7 +62,17 @@ export function ParticipationActivityModal({
 			return;
 		}
 
-		console.log(value);
+		const id = value as unknown as Guid;
+		const name = activityNamesOptions?.find(el => el.value === id)?.label;
+		const activity: Activity = {
+			id: id,
+			name: name ? name : ''
+		};
+
+		setParticipationActivity({
+			...participationActivity,
+			activity: activity
+		});
 	};
 
 	const onChangeResult = (value: ParticipationActivityResult) => {
@@ -125,7 +136,7 @@ export function ParticipationActivityModal({
 		return buttons;
 	};
 
-	console.log(activityNamesOptions);
+	console.log(participationActivity);
     
 	return (
 		<div className={styles['participation-activity-modal'] } onClick={() => navigate('/participationActivities')}>
@@ -144,7 +155,10 @@ export function ParticipationActivityModal({
 						<label>Выберите мероприятие, в котором участвовали</label>
 						<Select
 							disabled={!participationActivity?.canEdit}
-							value={null}
+							value={participationActivity?.activity ? {
+								label: participationActivity?.activity.name,
+								value: participationActivity?.activity.id
+							} : null}
 							style={{
 								width: 300
 							}}
