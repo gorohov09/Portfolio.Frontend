@@ -1,15 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './AddEducationInformation.module.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../../store/store';
 import { useEffect, useState } from 'react';
 import Headling from '../../../components/Headling/Headling';
 import { Button, Input, Select } from 'antd';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { Portfolio } from '../../../core/interfaces/portfolio/portfolio.interface';
 import { PREFIX } from '../../../helpers/API';
 import { EducationLevel } from '../../../core/enums/portfolio/educationLevel.enum';
 import { Guid } from 'guid-typescript';
+import { userActions } from '../../../store/slices/user.slice';
 
 type EducationInformation = {
     educationLevel: EducationLevel | null;
@@ -57,6 +58,7 @@ export function AddEducationInformation() {
 	const navigate = useNavigate();
 	const { jwt } = useSelector((s: RootState) => s.user);
 	const [educationInformation, setEducationInformation] = useState<EducationInformation>();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const getPortfolio = async () => {
 		try {
@@ -73,8 +75,12 @@ export function AddEducationInformation() {
 			});
             
 		} catch (e) {
-			console.error(e);
-			return;
+			if (e instanceof AxiosError) {
+				if (e.response?.status == 401) {
+					dispatch(userActions.logout());
+					navigate('/auth/login');
+				}
+			}
 		}
 	};
 
@@ -145,8 +151,12 @@ export function AddEducationInformation() {
 			});
 
 		} catch (e) {
-			console.error(e);
-			return;
+			if (e instanceof AxiosError) {
+				if (e.response?.status == 401) {
+					dispatch(userActions.logout());
+					navigate('/auth/login');
+				}
+			}
 		}
 	};
 

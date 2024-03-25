@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 import { ParticipationActivity } from '../../../core/interfaces/participationActivity/participationActivity.interface';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PREFIX } from '../../../helpers/API';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { ParticipationActivityModal } from '../../../components/ParticipationActivityModal/ParticipationActivityModal';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../../store/store';
 import { ActivityName } from '../../../core/interfaces/activities/activityName.interface';
 import { ActivityNamesBaseResponse } from '../../../core/interfaces/activities/activityNamesBaseResponse.interface';
+import { userActions } from '../../../store/slices/user.slice';
 
 export function ParticipationActivitySingle() {
 	const { id } = useParams();
 	const [participationActivity, setParticipationActivity] = useState<ParticipationActivity>();
 	const [activityNames, setActivityNames] = useState<ActivityName[]>();
 	const jwt = useSelector((s: RootState) => s.user.jwt);
+	const dispatch = useDispatch<AppDispatch>();
+	const navigate = useNavigate();
 
 	const getParticipationActivity = async () => {
 		try {
@@ -24,8 +27,12 @@ export function ParticipationActivitySingle() {
 			});
 			setParticipationActivity(data);
 		} catch (e) {
-			console.error(e);
-			return;
+			if (e instanceof AxiosError) {
+				if (e.response?.status == 401) {
+					dispatch(userActions.logout());
+					navigate('/auth/login');
+				}
+			}
 		}
 	};
 
@@ -38,8 +45,12 @@ export function ParticipationActivitySingle() {
 			});
 			setActivityNames(data.entities);
 		} catch (e) {
-			console.error(e);
-			return;
+			if (e instanceof AxiosError) {
+				if (e.response?.status == 401) {
+					dispatch(userActions.logout());
+					navigate('/auth/login');
+				}
+			}
 		}
 	};
 
@@ -58,8 +69,12 @@ export function ParticipationActivitySingle() {
 				}
 			});
 		} catch (e) {
-			console.error(e);
-			return;
+			if (e instanceof AxiosError) {
+				if (e.response?.status == 401) {
+					dispatch(userActions.logout());
+					navigate('/auth/login');
+				}
+			}
 		}
 	};
 
@@ -76,8 +91,12 @@ export function ParticipationActivitySingle() {
 			await getParticipationActivity();
 
 		} catch (e) {
-			console.error(e);
-			return;
+			if (e instanceof AxiosError) {
+				if (e.response?.status == 401) {
+					dispatch(userActions.logout());
+					navigate('/auth/login');
+				}
+			}
 		}
 	};
 

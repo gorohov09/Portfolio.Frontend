@@ -2,17 +2,19 @@ import { Button } from 'antd';
 import styles from './Portfolio.module.css';
 import { useEffect, useState } from 'react';
 import { Portfolio } from '../../core/interfaces/portfolio/portfolio.interface';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import axios, { AxiosError } from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
 import { PREFIX } from '../../helpers/API';
 import { getEducationLevelToString } from '../../core/enums/portfolio/educationLevel.enum';
 import { useNavigate } from 'react-router-dom';
+import { userActions } from '../../store/slices/user.slice';
 
 export function Portfolio() {
 	const [portfolio, setPortfolio] = useState<Portfolio>();
 	const jwt = useSelector((s: RootState) => s.user.jwt);
 	const navigate = useNavigate();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const getPortfolio = async () => {
 		try {
@@ -24,8 +26,12 @@ export function Portfolio() {
 			console.log(data);
 			setPortfolio(data);
 		} catch (e) {
-			console.error(e);
-			return;
+			if (e instanceof AxiosError) {
+				if (e.response?.status == 401) {
+					dispatch(userActions.logout());
+					navigate('/auth/login');
+				}
+			}
 		}
 	};
 

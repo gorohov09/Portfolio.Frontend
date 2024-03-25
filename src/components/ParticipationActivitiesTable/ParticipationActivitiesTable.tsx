@@ -8,7 +8,7 @@ import { Guid } from 'guid-typescript';
 import { Link } from 'react-router-dom';
 
 interface ParticipationActivityTableDataType {
-    id: Guid
+    key: Guid
 	activity: ActivityTableDataType | null;
     status: string;
     result: string;
@@ -25,9 +25,9 @@ interface ActivityTableDataType {
 const columns: TableProps<ParticipationActivityTableDataType>['columns'] = [
 	{
 		title: '#',
-		dataIndex: 'id',
-		key: 'id',
-		render: (id) => <Link to={`${id}`}>Перейти</Link>
+		dataIndex: 'key',
+		key: 'key',
+		render: (key) => <Link to={`${key}`}>Перейти</Link>
 	},
 	{
 		title: 'Мероприятие',
@@ -67,7 +67,7 @@ export function ParticipationActivitiesTable({ participationActivities }: Partic
 
 	useEffect(() => {
 		const data = participationActivities.map<ParticipationActivityTableDataType>(item => ({
-			id: item.id,
+			key: item.id,
 			activity: item.activity ? {
 				id: item.activity.id,
 				name: item.activity.name
