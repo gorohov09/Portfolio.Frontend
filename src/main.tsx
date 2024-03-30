@@ -17,6 +17,7 @@ import { AdminLayout } from './layouts/Admin/AdminLayout';
 import { Main } from './pages/Main/Main';
 import { AddGeneralInformation } from './pages/Portfolio/AddGeneralInformation/AddGeneralInformation';
 import { AddEducationInformation } from './pages/Portfolio/AddEducationInformation/AddEducationInformation';
+import { AdminMain } from './pages/AdminMain/AdminMain';
 
 const router = createBrowserRouter([
 	{
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
 		path: '/admin',
 		element: <RequireAuth userRole={Role.Manager}><AdminLayout /></RequireAuth> ,
 		children: [
+			{
+				path: '/admin',
+				element: <AdminMain />
+			}
 		]
 	}
 ]);

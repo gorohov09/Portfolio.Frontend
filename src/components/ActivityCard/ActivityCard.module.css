@@ -1,0 +1,39 @@
+.head {
+	position: relative;
+	min-height: 115px;
+	border-radius: 19px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 15px;
+    color: var(--text-color);
+	font-size: 15px;
+	font-style: normal;
+	line-height: normal;
+    padding: 12px;
+}
+
+.card {
+	background: rgb(124, 181, 255);
+	border-radius: 19px;
+	box-shadow: 18.21428680419922px 18.21428680419922px 36.42857360839844px 0px rgba(211, 209, 216, 0.25);
+	width: 320px;
+    min-height: 200px;
+}
+
+.footer {
+	padding: 12px;
+}
+
+.title {
+	color: var(--text-color);
+	font-size: 18.214px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+    text-align: center;
+}
+
+.link {
+	text-decoration: none;
+}
