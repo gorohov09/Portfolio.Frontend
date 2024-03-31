@@ -11,7 +11,11 @@ export enum ActivityLevel {
 	International = 5,
 }
 
-export function getActivityLevelToString(result: ActivityLevel){
+export function getActivityLevelToString(result: ActivityLevel | undefined){
+	if (result == undefined) {
+		return '';
+	}
+
 	switch(result) { 
 	case ActivityLevel.University: { 
 		return 'Университетское';

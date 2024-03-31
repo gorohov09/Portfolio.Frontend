@@ -53,7 +53,7 @@ export function Sidebar() {
 						</>
 						:
 						<>
-							<NavLink to='/activities' className={({ isActive }) => cn(styles['link'], {
+							<NavLink to='/admin/activities' className={({ isActive }) => cn(styles['link'], {
 								[styles.active]: isActive
 							})}>
 								<div className={styles['menu-item']}>

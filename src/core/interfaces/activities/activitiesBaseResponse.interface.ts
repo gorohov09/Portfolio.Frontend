@@ -1,6 +1,6 @@
 import { Activity } from './activity.interface';
 
-export interface ActivityNamesBaseResponse {
+export interface ActivityBaseResponse {
     entities: Activity[];
     totalCount: number;
 }

@@ -59,8 +59,6 @@ export function ParticipationActivities() {
 		}
 	};
 
-	console.log(id);
-
 	return (
 		<div className={styles['participation-activities-page']}>
 			<Button onClick={addParticipationActivity}>Добавить мероприятие</Button>

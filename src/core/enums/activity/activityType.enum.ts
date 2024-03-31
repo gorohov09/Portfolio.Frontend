@@ -5,7 +5,11 @@ export enum ActivityType {
 	Сonference = 2,
 }
 
-export function getActivityTypeToString(result: ActivityType){
+export function getActivityTypeToString(result: ActivityType | undefined){
+	if (result == undefined) {
+		return '';
+	}
+
 	switch(result) { 
 	case ActivityType.Olympiad: { 
 		return 'Олимпиада';
