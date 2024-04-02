@@ -1,0 +1,16 @@
+.activity-single-page {
+    padding: 20px;
+}
+
+.information-block {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.links {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}

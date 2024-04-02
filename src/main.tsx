@@ -19,6 +19,7 @@ import { AddGeneralInformation } from './pages/Portfolio/AddGeneralInformation/A
 import { AddEducationInformation } from './pages/Portfolio/AddEducationInformation/AddEducationInformation';
 import { AdminMain } from './pages/AdminMain/AdminMain';
 import { Activities } from './pages/Activity/Activities/Activities';
+import { ActivitySingle } from './pages/Activity/ActivitySingle/ActivitySingle';
 
 const router = createBrowserRouter([
 	{
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
 			{
 				path: '/activities',
 				element: <Activities />
+			},
+			{
+				path: '/activities/:id',
+				element: <ActivitySingle />
 			}
 		]
 	},
@@ -82,6 +87,10 @@ const router = createBrowserRouter([
 			{
 				path: '/admin/activities',
 				element: <Activities />
+			},
+			{
+				path: '/admin/activities/:id',
+				element: <ActivitySingle />
 			}
 		]
 	}

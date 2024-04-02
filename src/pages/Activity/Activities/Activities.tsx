@@ -51,7 +51,7 @@ export function Activities() {
 			<div className={styles['activities']}>
 				{
 					activities.map(el => (
-						<ActivityCard activity={el}/>
+						<ActivityCard activity={el} isAdmin={role == Role.Manager}/>
 					))
 				}
 			</div>

@@ -6,10 +6,10 @@ import { getActivityTypeToString } from '../../core/enums/activity/activityType.
 import { getActivityLevelToString } from '../../core/enums/activity/activityLevel.enum';
 
 
-export function ActivityCard({activity}: ActivityCardProps) {
+export function ActivityCard({activity, isAdmin}: ActivityCardProps) {
 	
 	return (
-		<Link to={`/activities/${activity?.id}`} className={styles['link']}>
+		<Link to={isAdmin ? `/admin/activities/${activity?.id}` : `/activities/${activity?.id}`} className={styles['link']}>
 			<div className={styles['card']}>
 				<div className={styles['head']}>
 					<div className={styles['section']}>
