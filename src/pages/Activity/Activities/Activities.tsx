@@ -46,7 +46,7 @@ export function Activities() {
 		<div className={styles['activities-page']}>
 			<div className={styles['header']}>
 				<Headling>Мероприятия</Headling>
-				{role == Role.Manager ? <><Button onClick={() => navigate('/addActivity')}>Добавить мероприятие</Button></> : <></>}
+				{role == Role.Manager ? <><Button onClick={() => navigate('/admin/addActivity')}>Добавить мероприятие</Button></> : <></>}
 			</div>
 			<div className={styles['activities']}>
 				{

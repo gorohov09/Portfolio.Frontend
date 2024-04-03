@@ -20,6 +20,7 @@ import { AddEducationInformation } from './pages/Portfolio/AddEducationInformati
 import { AdminMain } from './pages/AdminMain/AdminMain';
 import { Activities } from './pages/Activity/Activities/Activities';
 import { ActivitySingle } from './pages/Activity/ActivitySingle/ActivitySingle';
+import { AddActivity } from './pages/Activity/AddActivity/AddActivity';
 
 const router = createBrowserRouter([
 	{
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
 			{
 				path: '/admin/activities',
 				element: <Activities />
+			},
+			{
+				path: '/admin/addActivity',
+				element: <AddActivity />
 			},
 			{
 				path: '/admin/activities/:id',

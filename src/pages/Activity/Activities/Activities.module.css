@@ -8,6 +8,7 @@
     justify-content: space-around;
     align-items: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .header {
