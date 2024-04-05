@@ -1,11 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
-import {
-	BellTwoTone
-} from '@ant-design/icons';
 import styles from './Navbar.module.css';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { userActions } from '../../store/slices/user.slice';
+import { Bell } from '../Bell/Bell';
 
 export function Navbar() {
 	const navigate = useNavigate();
@@ -28,7 +26,7 @@ export function Navbar() {
 			</div>
 			<div className={styles['items']}>
 				<div className={styles['item']}>
-					<BellTwoTone className={styles['item-icon']}/>
+					<Bell />
 				</div>
 				<div className={styles['item']} onClick={logout}>
 					<img className={styles['item-icon-logout']} src='/logout.svg' alt='Иконка'/>
