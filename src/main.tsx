@@ -96,6 +96,16 @@ const router = createBrowserRouter([
 			{
 				path: '/admin/activities/:id',
 				element: <ActivitySingle />
+			},
+			{
+				path: '/admin/participationActivities',
+				element: <ParticipationActivities />,
+				children: [
+					{
+						path: ':id',
+						element: <ParticipationActivitySingle />
+					}
+				]
 			}
 		]
 	}

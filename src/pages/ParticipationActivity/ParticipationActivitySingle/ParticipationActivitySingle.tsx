@@ -100,6 +100,50 @@ export function ParticipationActivitySingle() {
 		}
 	};
 
+	const onSendRevisionParticipationActivity = async () => {
+		try {
+			await axios.post(`${PREFIX}/ParticipationActivity/SendRevision`, {
+				id: participationActivity?.id
+			}, {
+				headers: {
+					'Authorization': `Bearer ${jwt}`
+				}
+			});
+
+			await getParticipationActivity();
+
+		} catch (e) {
+			if (e instanceof AxiosError) {
+				if (e.response?.status == 401) {
+					dispatch(userActions.logout());
+					navigate('/auth/login');
+				}
+			}
+		}
+	};
+
+	const onConfirmParticipationActivity = async () => {
+		try {
+			await axios.post(`${PREFIX}/ParticipationActivity/Confirm`, {
+				id: participationActivity?.id
+			}, {
+				headers: {
+					'Authorization': `Bearer ${jwt}`
+				}
+			});
+
+			await getParticipationActivity();
+
+		} catch (e) {
+			if (e instanceof AxiosError) {
+				if (e.response?.status == 401) {
+					dispatch(userActions.logout());
+					navigate('/auth/login');
+				}
+			}
+		}
+	};
+
 	useEffect(() => {
 		getParticipationActivity();
 		getActivityNames();
@@ -112,7 +156,9 @@ export function ParticipationActivitySingle() {
 				activityNames={activityNames}
 				setParticipationActivity={setParticipationActivity}
 				onSaveParticipationActivity={onSaveParticipationActivity}
-				onSubmitParticipationActivity={onSubmitParticipationActivity}/>
+				onSubmitParticipationActivity={onSubmitParticipationActivity}
+				onSendRevisionParticipationActivity={onSendRevisionParticipationActivity}
+				onConfirmParticipationActivity={onConfirmParticipationActivity}/>
 		</div>
 	);
 }

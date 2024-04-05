@@ -10,11 +10,13 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store/store';
 import { userActions } from '../../../store/slices/user.slice';
+import Headling from '../../../components/Headling/Headling';
+import { Role } from '../../../core/enums/role.enum';
 
 export function ParticipationActivities() {
 	const navigate = useNavigate();
 	const [participationActivities, setParticipationActivities] = useState<ParticipationActivityTable[]>([]);
-	const jwt = useSelector((s: RootState) => s.user.jwt);
+	const { jwt, role } = useSelector((s: RootState) => s.user);
 	const dispatch = useDispatch<AppDispatch>();
 	const { id } = useParams();
 
@@ -61,7 +63,12 @@ export function ParticipationActivities() {
 
 	return (
 		<div className={styles['participation-activities-page']}>
-			<Button onClick={addParticipationActivity}>Добавить мероприятие</Button>
+			<Headling>{role === Role.Student ? 'Ваши участия в мероприятях' : 'Ваши проверки'}</Headling>
+			{
+				role === Role.Student
+					? <Button className={styles['add-button']} onClick={addParticipationActivity}>Добавить участие в мероприятии</Button>
+					: <></>
+			}
 			<ParticipationActivitiesTable participationActivities={participationActivities} />
 			<Outlet />
 		</div>

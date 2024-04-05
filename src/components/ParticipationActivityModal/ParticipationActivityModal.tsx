@@ -43,7 +43,9 @@ export function ParticipationActivityModal({
 	activityNames,
 	setParticipationActivity, 
 	onSaveParticipationActivity,
-	onSubmitParticipationActivity }: ParticipationActivityModalProps) {
+	onSubmitParticipationActivity,
+	onSendRevisionParticipationActivity,
+	onConfirmParticipationActivity }: ParticipationActivityModalProps) {
 
 	const navigate = useNavigate();
 	const role = useSelector((s: RootState) => s.user.role) as Role;
@@ -132,14 +134,20 @@ export function ParticipationActivityModal({
 				buttons.push(<Button className="button" onClick={onSubmitParticipationActivity}>Подать</Button>);
 			}
 		}
+		else if (role == Role.Manager) {
+			if (participationActivity?.status === ParticipationActivityStatus.Submitted) {
+				buttons.push(<Button className="button" onClick={onSendRevisionParticipationActivity}>Отклонить</Button>);
+				buttons.push(<Button className="button" onClick={onConfirmParticipationActivity}>Одобрить</Button>);
+			}
+		}
 
 		return buttons;
 	};
 
-	console.log(participationActivity);
+	const navigateUrl = role == Role.Student ? '/participationActivities' : '/admin/participationActivities';
     
 	return (
-		<div className={styles['participation-activity-modal'] } onClick={() => navigate('/participationActivities')}>
+		<div className={styles['participation-activity-modal'] } onClick={() => navigate(navigateUrl)}>
 			<div className={styles['participation-activity-modal-content']} 
 				onClick={e => e.stopPropagation()}>
 
