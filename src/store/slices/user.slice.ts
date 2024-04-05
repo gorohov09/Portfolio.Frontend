@@ -3,13 +3,13 @@ import { loadState } from '../storage';
 import axios from 'axios';
 import { LoginResponse } from '../../core/interfaces/auth/auth.interface';
 import { PREFIX } from '../../helpers/API';
+import { User } from '../../core/interfaces/user/user.interface';
 
 export const JWT_PERSISTENT_STATE = 'userData';
 
 export interface UserPersistentState {
     jwt: string | null;
 	role: string | null;
-	fullName: string | null;
 }
 
 export interface UserState {
@@ -17,13 +17,15 @@ export interface UserState {
 	role: string | null;
     loginErrorMessage?: string;
 	fullName: string | null;
+	notificationCount: number
 }
 
 const initialState: UserState = {
 	jwt: loadState<UserPersistentState>(JWT_PERSISTENT_STATE)?.jwt ?? null,
 	role: loadState<UserPersistentState>(JWT_PERSISTENT_STATE)?.role ?? null,
 	loginErrorMessage: undefined,
-	fullName: loadState<UserPersistentState>(JWT_PERSISTENT_STATE)?.fullName ?? null
+	fullName: null,
+	notificationCount: 0
 };
 
 export const login = createAsyncThunk('user/login',
@@ -33,6 +35,23 @@ export const login = createAsyncThunk('user/login',
 			password: params.password
 		});
 		return data;
+	}
+);
+
+export const userInfo = createAsyncThunk('user/info',
+	async (params: {jwt: string | null}) => {
+		const { data } = await axios.get<User>(`${PREFIX}/User/MyUserInfo`, {
+			headers: {
+				'Authorization': `Bearer ${params.jwt}`
+			}
+		});
+		return data;
+	}
+);
+
+export const addUserCountNotification = createAsyncThunk('user/addUserCountNotification',
+	async (params: {count: number}) => {
+		return params.count;
 	}
 );
 
@@ -53,11 +72,17 @@ export const userSlice = createSlice({
 		builder.addCase(login.fulfilled, (state, action: PayloadAction<LoginResponse>) => {
 			state.jwt = action.payload.token;
 			state.role = action.payload.role;
-			state.fullName = action.payload.fullName;
 		});
 		builder.addCase(login.rejected, (state, action) => {
 			state.loginErrorMessage = action.error.message;
-		});    
+		});
+		builder.addCase(userInfo.fulfilled, (state, action: PayloadAction<User>) => {
+			state.fullName = action.payload.fullName ?? null;
+			state.notificationCount = action.payload.notificationCount;
+		});
+		builder.addCase(addUserCountNotification.fulfilled, (state, action: PayloadAction<number>) => {
+			state.notificationCount = action.payload;
+		});
 	}
 });
 

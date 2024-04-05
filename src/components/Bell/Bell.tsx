@@ -1,15 +1,16 @@
 import styles from './Bell.module.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
 import {
 	BellTwoTone
 } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import * as signalR from '@microsoft/signalr';
+import { addUserCountNotification } from '../../store/slices/user.slice';
 
 export function Bell() {
-	const jwt = useSelector((s: RootState) => s.user.jwt);
-	const [countNotification, setCountNotification] = useState<number>(0);
+	const { notificationCount, jwt } = useSelector((s: RootState) => s.user);
+	const dispatch = useDispatch<AppDispatch>();
 
 	useEffect(() => {
 		let hubUrl = 'http://localhost:5205/notifications';
@@ -27,9 +28,8 @@ export function Bell() {
 			.then(() => console.log('Подключение к SignalR успешно'))
 			.catch(err => console.error('При подклбчении произошла ошибка: ', err));
 
-		connection.on('Notifications', (args) => {
-			console.log(args);
-			setCountNotification((countNotification) => countNotification + 1);
+		connection.on('Notifications', () => {
+			dispatch(addUserCountNotification({count: notificationCount + 1}));
 		});
 
 		return () => {
@@ -43,11 +43,11 @@ export function Bell() {
 		<div className={styles['bell']}>
 			<BellTwoTone className={styles['item-icon']}/>
 			{
-				countNotification > 0
+				notificationCount > 0
 					?
 					<>
 						<div className={styles['circle']}>
-							<span>{countNotification}</span>
+							<span>{notificationCount}</span>
 						</div>
 					</>
 					:
