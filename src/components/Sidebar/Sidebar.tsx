@@ -5,13 +5,19 @@ import {
 	BookTwoTone,
 	CarryOutTwoTone
 } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
 import { Role } from '../../core/enums/role.enum';
+import { userInfo } from '../../store/slices/user.slice';
+import { useEffect } from 'react';
 
 export function Sidebar() {
+	const { fullName, role, jwt } = useSelector((s: RootState) => s.user);
+	const dispatch = useDispatch<AppDispatch>();
 
-	const { fullName, role } = useSelector((s: RootState) => s.user);
+	useEffect(() => {
+		dispatch(userInfo({jwt: jwt}));
+	}, []);
     
 	return (
 		<div className={styles['sidebar']}>

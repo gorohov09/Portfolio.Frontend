@@ -9,7 +9,7 @@ export const store = configureStore({
 });
 
 store.subscribe(() => {
-	saveState({jwt: store.getState().user.jwt, role: store.getState().user.role, fullName: store.getState().user.fullName}, JWT_PERSISTENT_STATE);
+	saveState({jwt: store.getState().user.jwt, role: store.getState().user.role}, JWT_PERSISTENT_STATE);
 });
 
 export type RootState = ReturnType<typeof store.getState>;

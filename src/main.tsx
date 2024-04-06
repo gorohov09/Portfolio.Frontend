@@ -21,6 +21,7 @@ import { AdminMain } from './pages/AdminMain/AdminMain';
 import { Activities } from './pages/Activity/Activities/Activities';
 import { ActivitySingle } from './pages/Activity/ActivitySingle/ActivitySingle';
 import { AddActivity } from './pages/Activity/AddActivity/AddActivity';
+import { Notifications } from './pages/Notification/Notifications';
 
 const router = createBrowserRouter([
 	{
@@ -106,6 +107,10 @@ const router = createBrowserRouter([
 						element: <ParticipationActivitySingle />
 					}
 				]
+			},
+			{
+				path: '/admin/notifications',
+				element: <Notifications />
 			}
 		]
 	}
