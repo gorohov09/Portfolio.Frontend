@@ -10,6 +10,7 @@ import { userActions } from '../../store/slices/user.slice';
 import { NotificationCard } from '../../components/NotificationCard/NotificationCard';
 import { Notification } from '../../core/interfaces/notification/notification.interface';
 import Headling from '../../components/Headling/Headling';
+import { Button } from 'antd';
 
 export function Notifications() {
 	const navigate = useNavigate();
@@ -38,11 +39,27 @@ export function Notifications() {
 	useEffect(() => {
 		getNotifications();
 	}, []);
+
+	const onReadAllNotifications = async () => {
+		if (notifications === undefined)
+			return;
+
+		await axios.post(`${PREFIX}/Notification/MarkAsRead`, {
+			ids: notifications.filter(x => !x.isRead).map(el => el.id)
+		}, {
+			headers: {
+				'Authorization': `Bearer ${jwt}`
+			}
+		});
+
+		await getNotifications();
+	};
     
 	return (
 		<div className={styles['notifications-page']}>
 			<div>
 				<Headling>Уведомления</Headling>
+				<Button className={styles['button']} onClick={onReadAllNotifications}>Прочитать все</Button>
 			</div>
 			<div className={styles['notifications']}>
 				{

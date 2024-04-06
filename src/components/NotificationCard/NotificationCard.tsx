@@ -21,7 +21,7 @@ export function NotificationCard({notification}: NotificationCardProps) {
 			isRead: notification.isRead,
 			creationDate: notification.creationDate
 		});
-	}, []);
+	}, [notification]);
 
 	const onReadNotification = async () => {
 		if (notificationState === undefined)
@@ -44,8 +44,6 @@ export function NotificationCard({notification}: NotificationCardProps) {
 	const creationDate = notificationState?.creationDate 
 		? new Date(notification.creationDate).toLocaleString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }) 
 		: '';
-
-	console.log(notificationState);
 	
 	return (
 		<div className={styles['card']}>
