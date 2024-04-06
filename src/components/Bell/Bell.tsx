@@ -32,6 +32,11 @@ export function Bell() {
 			dispatch(addUserCountNotification({count: notificationCount + 1}));
 		});
 
+		connection.on('NotificationsRead', (args) => {
+			console.log(args);
+			dispatch(addUserCountNotification({count: notificationCount - args}));
+		});
+
 		return () => {
 			connection.stop()
 				.then(() => console.log('Отключение от SignalR'))
