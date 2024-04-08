@@ -14,7 +14,7 @@ import { Role } from '../../core/enums/role.enum';
 import { Guid } from 'guid-typescript';
 import { useEffect } from 'react';
 import { Activity, ParticipationActivity } from '../../core/interfaces/participationActivity/participationActivity.interface';
-import { ParticipationActivityRepository } from '../../repositories/ParticipationActivityRepository';
+import { useParticipationActivityRepository } from '../../repositories/useParticipationActivityRepository';
 
 const participationActivityResults = [
 	{
@@ -46,7 +46,10 @@ export function ParticipationActivityModal({
 
 	const navigate = useNavigate();
 	const role = useSelector((s: RootState) => s.user.role) as Role;
-	const repository = new ParticipationActivityRepository();
+	const {saveParticipationActivity, 
+		submitParticipationActivity, 
+		sendRevisionParticipationActivity, 
+		confirmParticipationActivity} = useParticipationActivityRepository();
 
 	useEffect(() => {
 		activityNamesOptions = activityNames?.map<ActivityNameOption>(el => {
@@ -120,19 +123,19 @@ export function ParticipationActivityModal({
 	};
 
 	async function handleSave(activity: ParticipationActivity) {
-		await repository.saveParticipationActivity(activity);
+		await saveParticipationActivity(activity);
 	}
 	
 	async function handleSubmit(activity: ParticipationActivity) {
-		await repository.submitParticipationActivity(activity.id.toString());
+		await submitParticipationActivity(activity.id.toString());
 	}
 
 	async function handleSendRevision(activity: ParticipationActivity) {
-		await repository.sendRevisionParticipationActivity(activity.id.toString());
+		await sendRevisionParticipationActivity(activity.id.toString());
 	}
 
 	async function handleConfirm(activity: ParticipationActivity) {
-		await repository.confirmParticipationActivity(activity.id.toString());
+		await confirmParticipationActivity(activity.id.toString());
 	}
 
 	const renderButtons = () => {

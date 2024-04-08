@@ -3,24 +3,24 @@ import { ParticipationActivity } from '../../../core/interfaces/participationAct
 import { useParams } from 'react-router-dom';
 import { ParticipationActivityModal } from '../../../components/ParticipationActivityModal/ParticipationActivityModal';
 import { ActivityName } from '../../../core/interfaces/activities/activityName.interface';
-import { ParticipationActivityRepository } from '../../../repositories/ParticipationActivityRepository';
+import { useParticipationActivityRepository } from '../../../repositories/useParticipationActivityRepository';
 
 export function ParticipationActivitySingle() {
 	const { id } = useParams();
 	const [participationActivity, setParticipationActivity] = useState<ParticipationActivity>();
 	const [activityNames, setActivityNames] = useState<ActivityName[]>();
-	const repository = new ParticipationActivityRepository();
+	const {getParticipationActivity, getActivityNames} = useParticipationActivityRepository();
 
 	useEffect(() => {
-        const fetchData = async () => {
-            const activity = await repository.getParticipationActivity(id);
-            setParticipationActivity(activity);
+		const fetchData = async () => {
+			const activity = await getParticipationActivity(id);
+			setParticipationActivity(activity);
 
-            const names = await repository.getActivityNames();
-            setActivityNames(names);
-        };
-        fetchData();
-    }, [id]);
+			const names = await getActivityNames();
+			setActivityNames(names);
+		};
+		fetchData();
+	}, [id]);
 
 	return (
 		<div>
