@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import Headling from '../../../components/Headling/Headling';
 import { Role } from '../../../core/enums/role.enum';
-import { ParticipationActivityRepository } from '../../../repositories/ParticipationActivitySingleRepository';
+import { ParticipationActivityRepository } from '../../../repositories/ParticipationActivityRepository';
 
 export function ParticipationActivities() {
 	const [participationActivities, setParticipationActivities] = useState<ParticipationActivityTable[]>();

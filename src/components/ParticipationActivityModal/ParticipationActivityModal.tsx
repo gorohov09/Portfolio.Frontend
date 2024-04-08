@@ -14,7 +14,7 @@ import { Role } from '../../core/enums/role.enum';
 import { Guid } from 'guid-typescript';
 import { useEffect } from 'react';
 import { Activity, ParticipationActivity } from '../../core/interfaces/participationActivity/participationActivity.interface';
-import { ParticipationActivityRepository } from '../../repositories/ParticipationActivitySingleRepository';
+import { ParticipationActivityRepository } from '../../repositories/ParticipationActivityRepository';
 
 const participationActivityResults = [
 	{
@@ -127,6 +127,14 @@ export function ParticipationActivityModal({
 		await repository.submitParticipationActivity(activity.id.toString());
 	}
 
+	async function handleSendRevision(activity: ParticipationActivity) {
+		await repository.sendRevisionParticipationActivity(activity.id.toString());
+	}
+
+	async function handleConfirm(activity: ParticipationActivity) {
+		await repository.confirmParticipationActivity(activity.id.toString());
+	}
+
 	const renderButtons = () => {
 		const buttons = [];
 
@@ -142,8 +150,8 @@ export function ParticipationActivityModal({
 		}
 		else if (role == Role.Manager) {
 			if (participationActivity?.status === ParticipationActivityStatus.Submitted) {
-				buttons.push(<Button className="button" onClick={() => repository.sendRevisionParticipationActivity(participationActivity.id.toString())}>Отклонить</Button>);
-				buttons.push(<Button className="button" onClick={() => repository.confirmParticipationActivity(participationActivity.id.toString())}>Одобрить</Button>);
+				buttons.push(<Button className="button" onClick={() => handleSendRevision(participationActivity)}>Отклонить</Button>);
+				buttons.push(<Button className="button" onClick={() => handleConfirm(participationActivity)}>Одобрить</Button>);
 			}
 		}
 

@@ -3,7 +3,7 @@ import { ParticipationActivity } from '../../../core/interfaces/participationAct
 import { useParams } from 'react-router-dom';
 import { ParticipationActivityModal } from '../../../components/ParticipationActivityModal/ParticipationActivityModal';
 import { ActivityName } from '../../../core/interfaces/activities/activityName.interface';
-import { ParticipationActivityRepository } from '../../../repositories/ParticipationActivitySingleRepository';
+import { ParticipationActivityRepository } from '../../../repositories/ParticipationActivityRepository';
 
 export function ParticipationActivitySingle() {
 	const { id } = useParams();
