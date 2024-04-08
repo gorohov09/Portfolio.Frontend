@@ -13,7 +13,8 @@ import { RootState } from '../../store/store';
 import { Role } from '../../core/enums/role.enum';
 import { Guid } from 'guid-typescript';
 import { useEffect } from 'react';
-import { Activity } from '../../core/interfaces/participationActivity/participationActivity.interface';
+import { Activity, ParticipationActivity } from '../../core/interfaces/participationActivity/participationActivity.interface';
+import { ParticipationActivityRepository } from '../../repositories/ParticipationActivitySingleRepository';
 
 const participationActivityResults = [
 	{
@@ -41,14 +42,11 @@ let activityNamesOptions: ActivityNameOption[] | undefined = [];
 export function ParticipationActivityModal({ 
 	participationActivity, 
 	activityNames,
-	setParticipationActivity, 
-	onSaveParticipationActivity,
-	onSubmitParticipationActivity,
-	onSendRevisionParticipationActivity,
-	onConfirmParticipationActivity }: ParticipationActivityModalProps) {
+	setParticipationActivity }: ParticipationActivityModalProps) {
 
 	const navigate = useNavigate();
 	const role = useSelector((s: RootState) => s.user.role) as Role;
+	const repository = new ParticipationActivityRepository();
 
 	useEffect(() => {
 		activityNamesOptions = activityNames?.map<ActivityNameOption>(el => {
@@ -121,23 +119,31 @@ export function ParticipationActivityModal({
 		});
 	};
 
+	async function handleSave(activity: ParticipationActivity) {
+		await repository.saveParticipationActivity(activity);
+	}
+	
+	async function handleSubmit(activity: ParticipationActivity) {
+		await repository.submitParticipationActivity(activity.id.toString());
+	}
+
 	const renderButtons = () => {
 		const buttons = [];
 
 		if (role == Role.Student) {
 			if (participationActivity?.status === ParticipationActivityStatus.Draft) {
-				buttons.push(<Button className="button" onClick={onSaveParticipationActivity}>Сохранить</Button>);
-				buttons.push(<Button className="button" onClick={onSubmitParticipationActivity}>Подать</Button>);
+				buttons.push(<Button className="button" onClick={() => handleSave(participationActivity)}>Сохранить</Button>);
+				buttons.push(<Button className="button" onClick={() => handleSubmit(participationActivity)}>Подать</Button>);
 			}
 			if (participationActivity?.status === ParticipationActivityStatus.SentRevision) {
-				buttons.push(<Button className="button" onClick={onSaveParticipationActivity}>Сохранить</Button>);
-				buttons.push(<Button className="button" onClick={onSubmitParticipationActivity}>Подать</Button>);
+				buttons.push(<Button className="button" onClick={() => handleSave(participationActivity)}>Сохранить</Button>);
+				buttons.push(<Button className="button" onClick={() => handleSubmit(participationActivity)}>Подать</Button>);
 			}
 		}
 		else if (role == Role.Manager) {
 			if (participationActivity?.status === ParticipationActivityStatus.Submitted) {
-				buttons.push(<Button className="button" onClick={onSendRevisionParticipationActivity}>Отклонить</Button>);
-				buttons.push(<Button className="button" onClick={onConfirmParticipationActivity}>Одобрить</Button>);
+				buttons.push(<Button className="button" onClick={() => repository.sendRevisionParticipationActivity(participationActivity.id.toString())}>Отклонить</Button>);
+				buttons.push(<Button className="button" onClick={() => repository.confirmParticipationActivity(participationActivity.id.toString())}>Одобрить</Button>);
 			}
 		}
 
