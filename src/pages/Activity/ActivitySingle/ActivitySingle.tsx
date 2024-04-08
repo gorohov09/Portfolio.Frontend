@@ -2,69 +2,32 @@ import { useEffect, useState } from 'react';
 import Headling from '../../../components/Headling/Headling';
 import styles from './ActivitySingle.module.css';
 import { Activity } from '../../../core/interfaces/activities/activity.interface';
-import axios, { AxiosError } from 'axios';
-import { PREFIX } from '../../../helpers/API';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../store/store';
-import { userActions } from '../../../store/slices/user.slice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getActivitySectionToString } from '../../../core/enums/activity/activitySection.enum';
 import { getActivityTypeToString } from '../../../core/enums/activity/activityType.enum';
 import { getActivityLevelToString } from '../../../core/enums/activity/activityLevel.enum';
 import { Button } from 'antd';
 import { Role } from '../../../core/enums/role.enum';
-
-
+import { useActivityRepository } from '../../../repositories/useActivityRepository';
+import { useParticipationActivityRepository } from '../../../repositories/useParticipationActivityRepository';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 export function ActivitySingle() {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [activity, setActivity] = useState<Activity>();
-	const {jwt, role} = useSelector((s: RootState) => s.user);
-	const dispatch = useDispatch<AppDispatch>();
-
-	const getActivity = async () => {
-		try {
-			const {data} = await axios.get<Activity>(`${PREFIX}/Activity/${id}`, {
-				headers: {
-					'Authorization': `Bearer ${jwt}`
-				}
-			});
-			setActivity(data);
-		} catch (e) {
-			if (e instanceof AxiosError) {
-				if (e.response?.status == 401) {
-					dispatch(userActions.logout());
-					navigate('/auth/login');
-				}
-			}
-		}
-	};
+	const {role} = useSelector((s: RootState) => s.user);
+	const { getActivityById } = useActivityRepository();
+	const { addParticipationActivity } = useParticipationActivityRepository();
 
 	useEffect(() => {
+		const getActivity = async () => {
+			const data = await getActivityById(id);
+			setActivity(data);
+		};
 		getActivity();
 	}, []);
-
-	const addParticipationActivity = async () => {
-		try {
-			const {data} = await axios.post(`${PREFIX}/ParticipationActivity`, {
-				activityId: id
-			}, {
-				headers: {
-					'Authorization': `Bearer ${jwt}`
-				}
-			});
-
-			navigate(`/participationActivities/${data.participationActivityId}`);
-		} catch (e) {
-			if (e instanceof AxiosError) {
-				if (e.response?.status == 401) {
-					dispatch(userActions.logout());
-					navigate('/auth/login');
-				}
-			}
-		}
-	};
 
 	const startDate = activity?.period.startDate 
 		? new Date(activity?.period.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }) 
@@ -118,7 +81,7 @@ export function ActivitySingle() {
 					role === Role.Student
 						? 
 						<>
-							<Button className={styles['button']} onClick={addParticipationActivity}>Подать заявку на участие</Button>
+							<Button className={styles['button']} onClick={() => addParticipationActivity(id ? id : null)}>Подать заявку на участие</Button>
 						</>
 						:
 						<>

@@ -11,8 +11,8 @@ export const useParticipationActivityRepository = () => {
 
 	const [authorizedRequest] = useBaseRepository();
 
-	const getParticipationActivity = (id: string | undefined): Promise<ParticipationActivity | undefined> => {
-		return authorizedRequest<ParticipationActivity>(`${PREFIX}/ParticipationActivity/${id}`);
+	const getParticipationActivity = async (id: string | undefined): Promise<ParticipationActivity | undefined> => {
+		return await authorizedRequest<ParticipationActivity>(`${PREFIX}/ParticipationActivity/${id}`);
 	};
 
 	const getParticipationActivities = async (): Promise<ParticipationActivityTable[] | undefined> => {
@@ -60,10 +60,12 @@ export const useParticipationActivityRepository = () => {
 		});
 	};
 
-	const addParticipationActivity = async (): Promise<Guid | undefined> => {
+	const addParticipationActivity = async (activityId: string | null): Promise<Guid | undefined> => {
 		const data = await authorizedRequest<{participationActivityId: Guid}>(`${PREFIX}/ParticipationActivity`, {
 			method: 'POST',
-			data: {}
+			data: {
+				activityId: activityId
+			}
 		});
 
 		return data?.participationActivityId;

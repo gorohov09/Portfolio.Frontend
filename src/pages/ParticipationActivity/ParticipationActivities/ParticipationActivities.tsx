@@ -26,7 +26,7 @@ export function ParticipationActivities() {
 	}, [id]);
 
 	const onAddParticipationActivity = async () => {
-		const id = await addParticipationActivity();
+		const id = await addParticipationActivity(null);
 		console.log('id', id);
 		if (id != undefined) {
 			navigate(`/participationActivities/${id}`);
