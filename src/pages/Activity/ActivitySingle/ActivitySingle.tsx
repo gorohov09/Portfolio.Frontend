@@ -29,6 +29,15 @@ export function ActivitySingle() {
 		getActivity();
 	}, []);
 
+	const onAddParticipationActivity = async () => {
+		const participationActivityId = await addParticipationActivity(id ? id : null);
+		if (participationActivityId == undefined) {
+			return;
+		}
+
+		navigate(`/participationActivities/${participationActivityId}`);
+	};
+
 	const startDate = activity?.period.startDate 
 		? new Date(activity?.period.startDate).toLocaleString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }) 
 		: '';
@@ -81,7 +90,7 @@ export function ActivitySingle() {
 					role === Role.Student
 						? 
 						<>
-							<Button className={styles['button']} onClick={() => addParticipationActivity(id ? id : null)}>Подать заявку на участие</Button>
+							<Button className={styles['button']} onClick={onAddParticipationActivity}>Подать заявку на участие</Button>
 						</>
 						:
 						<>
