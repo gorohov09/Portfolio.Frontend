@@ -1,3 +1,4 @@
+import { Modal } from 'antd';
 import { ActivityBaseResponse } from '../core/interfaces/activities/activitiesBaseResponse.interface';
 import { Activity } from '../core/interfaces/activities/activity.interface';
 import { PREFIX } from '../helpers/API';
@@ -9,16 +10,17 @@ export const useActivityRepository = () => {
 	const [authorizedRequest] = useBaseRepository();
 
 	const getActivityById = async (id: string | undefined): Promise<Activity | undefined> => {
-		return await authorizedRequest<Activity>(`${PREFIX}/Activity/${id}`);
+		const {data} = await authorizedRequest<Activity>(`${PREFIX}/Activity/${id}`);
+		return data; 
 	};
 
 	const getActivities = async (): Promise<Activity[] | undefined> => {
-		const data = await authorizedRequest<ActivityBaseResponse>(`${PREFIX}/Activity/list`);
+		const {data} = await authorizedRequest<ActivityBaseResponse>(`${PREFIX}/Activity/list`);
 		return data?.entities;
 	};
 
 	const saveActivity = async (activity: ActivityInformationPost): Promise<void> => {
-		await authorizedRequest<void>(`${PREFIX}/Activity`, {
+		const {success} = await authorizedRequest<void>(`${PREFIX}/Activity`, {
 			method: 'POST',
 			data: {
 				name: activity.name,
@@ -32,6 +34,12 @@ export const useActivityRepository = () => {
 				description: activity.description
 			}
 		});
+
+		if (success) {
+			Modal.success({
+				content: 'Мероприятие успешно создано!'
+			});
+		}
 	};
 
 	return {

@@ -1,7 +1,7 @@
 import { ParticipationActivityModalProps } from './ParticipationActivityModal.props';
 import { useNavigate } from 'react-router-dom';
 import styles from './ParticipationActivityModal.module.css';
-import { DatePicker, DatePickerProps, Select, Button } from 'antd';
+import { DatePicker, DatePickerProps, Select, Button, Modal } from 'antd';
 import { ParticipationActivityResult } from '../../core/enums/participationActivity/participationActivityResult.enum';
 import dayjs from 'dayjs';
 import TextArea from 'antd/es/input/TextArea';
@@ -123,19 +123,56 @@ export function ParticipationActivityModal({
 	};
 
 	async function handleSave(activity: ParticipationActivity) {
-		await saveParticipationActivity(activity);
+		const success = await saveParticipationActivity(activity);
+
+		if (success) {
+			Modal.success({
+				content: 'Успешно сохранено!'
+			});
+		}
 	}
 	
 	async function handleSubmit(activity: ParticipationActivity) {
-		await submitParticipationActivity(activity.id.toString());
+		const success = await submitParticipationActivity(activity.id.toString());
+
+		if (success) {
+			setParticipationActivity({
+				...activity,
+				status: ParticipationActivityStatus.Submitted
+			});
+
+			Modal.success({
+				content: 'Участие в мероприятии успешно подано!'
+			});
+		}
 	}
 
 	async function handleSendRevision(activity: ParticipationActivity) {
-		await sendRevisionParticipationActivity(activity.id.toString());
+		const success =  await sendRevisionParticipationActivity(activity.id.toString());
+		if (success) {
+			setParticipationActivity({
+				...activity,
+				status: ParticipationActivityStatus.SentRevision
+			});
+
+			Modal.success({
+				content: 'Участие в мероприятии успешно отправлено на доработку!'
+			});
+		}
 	}
 
 	async function handleConfirm(activity: ParticipationActivity) {
-		await confirmParticipationActivity(activity.id.toString());
+		const success = await confirmParticipationActivity(activity.id.toString());
+		if (success) {
+			setParticipationActivity({
+				...activity,
+				status: ParticipationActivityStatus.Approved
+			});
+
+			Modal.success({
+				content: 'Участие в мероприятии успешно одобрено!'
+			});
+		}
 	}
 
 	const renderButtons = () => {
