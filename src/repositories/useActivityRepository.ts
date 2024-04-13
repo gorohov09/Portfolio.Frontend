@@ -1,4 +1,3 @@
-import { Modal } from 'antd';
 import { ActivityBaseResponse } from '../core/interfaces/activities/activitiesBaseResponse.interface';
 import { Activity } from '../core/interfaces/activities/activity.interface';
 import { PREFIX } from '../helpers/API';
@@ -19,7 +18,7 @@ export const useActivityRepository = () => {
 		return data?.entities;
 	};
 
-	const saveActivity = async (activity: ActivityInformationPost): Promise<void> => {
+	const saveActivity = async (activity: ActivityInformationPost): Promise<boolean> => {
 		const {success} = await authorizedRequest<void>(`${PREFIX}/Activity`, {
 			method: 'POST',
 			data: {
@@ -35,11 +34,7 @@ export const useActivityRepository = () => {
 			}
 		});
 
-		if (success) {
-			Modal.success({
-				content: 'Мероприятие успешно создано!'
-			});
-		}
+		return success;
 	};
 
 	return {

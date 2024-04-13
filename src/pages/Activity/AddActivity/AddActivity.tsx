@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './AddActivity.module.css';
 import { useState } from 'react';
 import Headling from '../../../components/Headling/Headling';
-import { Button, Input, Select } from 'antd';
+import { Button, Input, Modal, Select } from 'antd';
 import { ActivitySection } from '../../../core/enums/activity/activitySection.enum';
 import { ActivityType } from '../../../core/enums/activity/activityType.enum';
 import { ActivityLevel } from '../../../core/enums/activity/activityLevel.enum';
@@ -182,8 +182,13 @@ export function AddActivity() {
 			return;
 		}
 
-		await saveActivity(activity);
-		navigate('/admin/activities');
+		const success = await saveActivity(activity);
+		if (success) {
+			Modal.success({
+				content: 'Мероприятие успешно создано!'
+			});
+			navigate('/admin/activities');
+		}
 	};
 
 	return (
