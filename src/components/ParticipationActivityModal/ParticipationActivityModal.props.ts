@@ -6,8 +6,4 @@ export interface ParticipationActivityModalProps {
     participationActivity: ParticipationActivity | undefined;
     activityNames: ActivityName[] | undefined;
     setParticipationActivity: Dispatch<SetStateAction<ParticipationActivity | undefined>>;
-    onSaveParticipationActivity: () => void;
-    onSubmitParticipationActivity: () => void;
-    onSendRevisionParticipationActivity: () => void;
-    onConfirmParticipationActivity: () => void;
 }

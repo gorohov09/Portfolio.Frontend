@@ -1,19 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './AddActivity.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../store/store';
 import { useState } from 'react';
 import Headling from '../../../components/Headling/Headling';
 import { Button, Input, Select } from 'antd';
-import axios, { AxiosError } from 'axios';
-import { PREFIX } from '../../../helpers/API';
-import { userActions } from '../../../store/slices/user.slice';
 import { ActivitySection } from '../../../core/enums/activity/activitySection.enum';
 import { ActivityType } from '../../../core/enums/activity/activityType.enum';
 import { ActivityLevel } from '../../../core/enums/activity/activityLevel.enum';
 import TextArea from 'antd/es/input/TextArea';
+import { useActivityRepository } from '../../../repositories/useActivityRepository';
 
-type ActivityInformationPost = {
+export type ActivityInformationPost = {
     name: string | null | undefined;
     section: ActivitySection | null | undefined,
     type: ActivityType | null | undefined,
@@ -69,7 +65,6 @@ const activityLevelsOptions = [
 
 export function AddActivity() {
 	const navigate = useNavigate();
-	const { jwt } = useSelector((s: RootState) => s.user);
 	const [activity, setActivity] = useState<ActivityInformationPost>({
 		name: null,
 		section: null,
@@ -81,7 +76,7 @@ export function AddActivity() {
 		link: null,
 		location: null
 	});
-	const dispatch = useDispatch<AppDispatch>();
+	const {saveActivity} = useActivityRepository();
 
 	const onChangeActivitySection = (value: ActivitySection) => {
 		if (activity === undefined) {
@@ -187,36 +182,9 @@ export function AddActivity() {
 			return;
 		}
 
-		try {
-			await axios.post(`${PREFIX}/Activity`, {
-				name: activity.name,
-				section: activity.section,
-				type: activity.type,
-				level: activity.level,
-				startDate: activity.startDate,
-				endDate: activity.endDate,
-				location: activity.location,
-				link: activity.link,
-				description: activity.description
-			}, {
-				headers: {
-					'Authorization': `Bearer ${jwt}`
-				}
-			});
-
-			navigate('/admin/activities');
-
-		} catch (e) {
-			if (e instanceof AxiosError) {
-				if (e.response?.status == 401) {
-					dispatch(userActions.logout());
-					navigate('/auth/login');
-				}
-			}
-		}
+		await saveActivity(activity);
+		navigate('/admin/activities');
 	};
-
-	console.log(activity);
 
 	return (
 		<div className={styles['add-activity']}>

@@ -66,7 +66,7 @@ export function ParticipationActivitiesTable({ participationActivities }: Partic
 	const [data, setData] = useState<ParticipationActivityTableDataType[]>();
 
 	useEffect(() => {
-		const data = participationActivities.map<ParticipationActivityTableDataType>(item => ({
+		const data = participationActivities?.map<ParticipationActivityTableDataType>(item => ({
 			key: item.id,
 			activity: item.activity ? {
 				id: item.activity.id,
