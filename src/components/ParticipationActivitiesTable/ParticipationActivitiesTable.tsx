@@ -1,8 +1,8 @@
-import { Table, TableProps } from 'antd';
+import { Table, TableProps, Tag } from 'antd';
 import styles from './ParticipationActivitiesTable.module.css';
 import { ParticipationActivitiesTableProps } from './ParticipationActivitiesTable.props';
 import { useEffect, useState } from 'react';
-import { getParticipationActivityStatusToString } from '../../core/enums/participationActivity/participationActivityStatus.enum';
+import { getColorStatus, getParticipationActivityStatusToString } from '../../core/enums/participationActivity/participationActivityStatus.enum';
 import { getParticipationActivityResultToString } from '../../core/enums/participationActivity/participationActivityResult.enum';
 import { Guid } from 'guid-typescript';
 import { Link } from 'react-router-dom';
@@ -38,7 +38,8 @@ const columns: TableProps<ParticipationActivityTableDataType>['columns'] = [
 	{
 		title: 'Статус',
 		dataIndex: 'status',
-		key: 'status'
+		key: 'status',
+		render: (status) => <Tag color={getColorStatus(status)}>{status}</Tag>
 	},
 	{
 		title: 'Результат',
@@ -48,17 +49,20 @@ const columns: TableProps<ParticipationActivityTableDataType>['columns'] = [
 	{
 		title: 'Дата участия',
 		dataIndex: 'date',
-		key: 'date'
+		key: 'date',
+		render: (date) => date ? new Date(date).toLocaleString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }) : ''
 	},
 	{
 		title: 'Дата создания',
 		dataIndex: 'creationDate',
-		key: 'creationDate'
+		key: 'creationDate',
+		render: (creationDate) => creationDate ? new Date(creationDate).toLocaleString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }) : ''
 	},
 	{
 		title: 'Дата обновления',
 		dataIndex: 'updateDate',
-		key: 'updateDate'
+		key: 'updateDate',
+		render: (updateDate) => updateDate ? new Date(updateDate).toLocaleString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' }) : ''
 	}
 ];
 
