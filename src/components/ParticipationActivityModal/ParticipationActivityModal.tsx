@@ -1,13 +1,13 @@
 import { ParticipationActivityModalProps } from './ParticipationActivityModal.props';
 import { useNavigate } from 'react-router-dom';
 import styles from './ParticipationActivityModal.module.css';
-import { DatePicker, DatePickerProps, Select, Button, Modal } from 'antd';
+import { DatePicker, DatePickerProps, Select, Button, Modal, Tag, ConfigProvider } from 'antd';
 import { ParticipationActivityResult } from '../../core/enums/participationActivity/participationActivityResult.enum';
 import dayjs from 'dayjs';
 import TextArea from 'antd/es/input/TextArea';
 import { FileUploader } from '../FileUploader/FileUploader';
 import { File } from '../../core/interfaces/file.interface';
-import { ParticipationActivityStatus, getParticipationActivityStatusToString } from '../../core/enums/participationActivity/participationActivityStatus.enum';
+import { ParticipationActivityStatus, getColorStatus, getParticipationActivityStatusToString } from '../../core/enums/participationActivity/participationActivityStatus.enum';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { Role } from '../../core/enums/role.enum';
@@ -15,6 +15,7 @@ import { Guid } from 'guid-typescript';
 import { useEffect } from 'react';
 import { Activity, ParticipationActivity } from '../../core/interfaces/participationActivity/participationActivity.interface';
 import { useParticipationActivityRepository } from '../../repositories/useParticipationActivityRepository';
+import locale from 'antd/locale/ru_RU';
 
 const participationActivityResults = [
 	{
@@ -199,6 +200,7 @@ export function ParticipationActivityModal({
 	};
 
 	const navigateUrl = role == Role.Student ? '/participationActivities' : '/admin/participationActivities';
+	const status = getParticipationActivityStatusToString(participationActivity?.status);
     
 	return (
 		<div className={styles['participation-activity-modal'] } onClick={() => navigate(navigateUrl)}>
@@ -206,7 +208,7 @@ export function ParticipationActivityModal({
 				onClick={e => e.stopPropagation()}>
 
 				<div className={styles['participation-activity-status-block']}>
-					<span>{getParticipationActivityStatusToString(participationActivity?.status)} </span>
+					<Tag style={{ fontSize: '15px', fontWeight: 'bold' }} color={getColorStatus(status)}><span>{status}</span></Tag>
 					{participationActivity?.comment && participationActivity.status == ParticipationActivityStatus.SentRevision
 						? <span className={styles['participation-activity-comment']}>({participationActivity.comment})</span>
 						: <></>}
@@ -243,9 +245,12 @@ export function ParticipationActivityModal({
 
 					<div className={styles['field']}>
 						<label>Выберите дату участия</label>
-						<DatePicker disabled={!participationActivity?.canEdit} 
-							value={participationActivity?.date ? dayjs(participationActivity?.date) : null}
-							onChange={onChangeDate} />
+						<ConfigProvider locale={locale}>
+							<DatePicker disabled={!participationActivity?.canEdit} 
+								value={participationActivity?.date ? dayjs(participationActivity?.date) : null}
+								onChange={onChangeDate}
+							/>
+						</ConfigProvider>
 					</div>
 
 					<div className={styles['field']}>

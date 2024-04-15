@@ -28,3 +28,16 @@ export function getParticipationActivityStatusToString(status: ParticipationActi
 	} 
 	} 
 }
+
+export function getColorStatus(status: string) {
+
+	switch (status) {
+	case 'Черновик':
+		return '#D3D3D3';
+	case 'Одобрено':
+		return '#87d068';
+	case 'Подано': {
+		return '#ffd700';
+	}
+	}
+}
