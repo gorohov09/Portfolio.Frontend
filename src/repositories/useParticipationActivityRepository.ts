@@ -51,10 +51,10 @@ export const useParticipationActivityRepository = () => {
 		return success;
 	};
 
-	const sendRevisionParticipationActivity = async (id: string): Promise<boolean> => {
+	const sendRevisionParticipationActivity = async (id: string, comment: string | undefined): Promise<boolean> => {
 		const {success} = await authorizedRequest<void>(`${PREFIX}/ParticipationActivity/SendRevision`, {
 			method: 'POST',
-			data: { id }
+			data: { id, comment }
 		});
 
 		return success;
