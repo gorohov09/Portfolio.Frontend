@@ -12,10 +12,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { Role } from '../../core/enums/role.enum';
 import { Guid } from 'guid-typescript';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Activity, ParticipationActivity } from '../../core/interfaces/participationActivity/participationActivity.interface';
 import { useParticipationActivityRepository } from '../../repositories/useParticipationActivityRepository';
 import locale from 'antd/locale/ru_RU';
+import ModalInput from '../ModalInput/ModalInput';
 
 const participationActivityResults = [
 	{
@@ -51,6 +52,9 @@ export function ParticipationActivityModal({
 		submitParticipationActivity, 
 		sendRevisionParticipationActivity, 
 		confirmParticipationActivity} = useParticipationActivityRepository();
+
+	const [comment, setComment] = useState<string>();
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		activityNamesOptions = activityNames?.map<ActivityNameOption>(el => {
@@ -148,8 +152,13 @@ export function ParticipationActivityModal({
 		}
 	}
 
-	async function handleSendRevision(activity: ParticipationActivity) {
-		const success =  await sendRevisionParticipationActivity(activity.id.toString());
+	async function handleSendRevision(activity: ParticipationActivity | undefined) {
+
+		if (activity === undefined) {
+			return;
+		}
+
+		const success = await sendRevisionParticipationActivity(activity.id.toString(), comment);
 		if (success) {
 			setParticipationActivity({
 				...activity,
@@ -176,6 +185,10 @@ export function ParticipationActivityModal({
 		}
 	}
 
+	const showModal = () => {
+		setIsModalOpen(true);
+	};
+
 	const renderButtons = () => {
 		const buttons = [];
 
@@ -191,7 +204,7 @@ export function ParticipationActivityModal({
 		}
 		else if (role == Role.Manager) {
 			if (participationActivity?.status === ParticipationActivityStatus.Submitted) {
-				buttons.push(<Button className="button" onClick={() => handleSendRevision(participationActivity)}>Отклонить</Button>);
+				buttons.push(<Button className="button" onClick={showModal}>Отклонить</Button>);
 				buttons.push(<Button className="button" onClick={() => handleConfirm(participationActivity)}>Одобрить</Button>);
 			}
 		}
@@ -207,9 +220,15 @@ export function ParticipationActivityModal({
 			<div className={styles['participation-activity-modal-content']} 
 				onClick={e => e.stopPropagation()}>
 
+				<ModalInput 
+					setIsModalOpen={setIsModalOpen} 
+					setComment={setComment} 
+					comment={comment} 
+					isModalOpen={isModalOpen} 
+					sendOnRevision={() => handleSendRevision(participationActivity)}/>
 				<div className={styles['participation-activity-status-block']}>
 					<Tag style={{ fontSize: '15px', fontWeight: 'bold' }} color={getColorStatus(status)}><span>{status}</span></Tag>
-					{participationActivity?.comment && participationActivity.status == ParticipationActivityStatus.SentRevision
+					{participationActivity?.comment && participationActivity.status == ParticipationActivityStatus.SentRevision && role == Role.Student
 						? <span className={styles['participation-activity-comment']}>({participationActivity.comment})</span>
 						: <></>}
 				</div>

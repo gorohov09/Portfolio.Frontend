@@ -36,6 +36,8 @@ export function getColorStatus(status: string) {
 		return '#D3D3D3';
 	case 'Одобрено':
 		return '#87d068';
+	case 'На доработке':
+		return '#B22222';
 	case 'Подано': {
 		return '#ffd700';
 	}
