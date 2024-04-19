@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { NotificationBaseResponse } from '../../core/interfaces/notification/notificationBaseResponse.interface';
+import { useEffect } from 'react';
 import { PREFIX } from '../../helpers/API';
 import styles from './Notification.module.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,24 +7,19 @@ import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { userActions } from '../../store/slices/user.slice';
 import { NotificationCard } from '../../components/NotificationCard/NotificationCard';
-import { Notification } from '../../core/interfaces/notification/notification.interface';
 import Headling from '../../components/Headling/Headling';
 import { Button } from 'antd';
+import { getNotificationList } from '../../store/slices/notification.slice';
 
 export function Notifications() {
 	const navigate = useNavigate();
-	const [notifications, setNotifications] = useState<Notification[]>([]);
 	const { jwt } = useSelector((s: RootState) => s.user);
 	const dispatch = useDispatch<AppDispatch>();
+	const { notificationList } = useSelector((s: RootState) => s.notificationList);
 
 	const getNotifications = async () => {
 		try {
-			const {data} = await axios.get<NotificationBaseResponse>(`${PREFIX}/Notification/list`, {
-				headers: {
-					'Authorization': `Bearer ${jwt}`
-				}
-			});
-			setNotifications(data.entities);
+			dispatch(getNotificationList({jwt: jwt}));
 		} catch (e) {
 			if (e instanceof AxiosError) {
 				if (e.response?.status == 401) {
@@ -41,11 +35,11 @@ export function Notifications() {
 	}, []);
 
 	const onReadAllNotifications = async () => {
-		if (notifications === undefined)
+		if (notificationList === undefined)
 			return;
 
 		await axios.post(`${PREFIX}/Notification/MarkAsRead`, {
-			ids: notifications.filter(x => !x.isRead).map(el => el.id)
+			ids: notificationList.filter(x => !x.isRead).map(el => el.id)
 		}, {
 			headers: {
 				'Authorization': `Bearer ${jwt}`
@@ -63,7 +57,7 @@ export function Notifications() {
 			</div>
 			<div className={styles['notifications']}>
 				{
-					notifications.map(el => (
+					notificationList.map(el => (
 						<NotificationCard notification={el} />
 					))
 				}

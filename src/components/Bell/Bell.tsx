@@ -6,7 +6,8 @@ import {
 } from '@ant-design/icons';
 import { useEffect } from 'react';
 import * as signalR from '@microsoft/signalr';
-import { addUserCountNotification } from '../../store/slices/user.slice';
+import { addUserCountNotification, removeUserCountNotification } from '../../store/slices/user.slice';
+import { addNotification } from '../../store/slices/notification.slice';
 
 export function Bell() {
 	const { notificationCount, jwt } = useSelector((s: RootState) => s.user);
@@ -28,13 +29,14 @@ export function Bell() {
 			.then(() => console.log('Подключение к SignalR успешно'))
 			.catch(err => console.error('При подклбчении произошла ошибка: ', err));
 
-		connection.on('Notifications', () => {
+		connection.on('Notifications', (args) => {
+			console.log(args);
 			dispatch(addUserCountNotification({count: notificationCount + 1}));
+			dispatch(addNotification({notification: {id: args.id, title: args.title, description: args.description, creationDate: args.creationDate}}));
 		});
 
 		connection.on('NotificationsRead', (args) => {
-			console.log(args);
-			dispatch(addUserCountNotification({count: notificationCount - args}));
+			dispatch(removeUserCountNotification({count: args}));
 		});
 
 		return () => {

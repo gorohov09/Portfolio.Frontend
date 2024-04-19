@@ -2,10 +2,13 @@ import { Table, TableProps, Tag } from 'antd';
 import styles from './ParticipationActivitiesTable.module.css';
 import { ParticipationActivitiesTableProps } from './ParticipationActivitiesTable.props';
 import { useEffect, useState } from 'react';
-import { getColorStatus, getParticipationActivityStatusToString } from '../../core/enums/participationActivity/participationActivityStatus.enum';
+import { ParticipationActivityStatus, getColorStatus, getParticipationActivityStatusToString } from '../../core/enums/participationActivity/participationActivityStatus.enum';
 import { getParticipationActivityResultToString } from '../../core/enums/participationActivity/participationActivityResult.enum';
 import { Guid } from 'guid-typescript';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { Role } from '../../core/enums/role.enum';
 
 interface ParticipationActivityTableDataType {
     key: Guid
@@ -15,6 +18,7 @@ interface ParticipationActivityTableDataType {
     date: string;
     creationDate: string;
     updateDate: string;
+	isNeedCheck: boolean;
 }
 
 interface ActivityTableDataType {
@@ -27,7 +31,7 @@ const columns: TableProps<ParticipationActivityTableDataType>['columns'] = [
 		title: '#',
 		dataIndex: 'key',
 		key: 'key',
-		render: (key) => <Link to={`${key}`}>Перейти</Link>
+		render: (key, dataTableItem) => <Link to={`${key}`}>{dataTableItem.isNeedCheck ? <span className={styles['check']}>Проверка не выполнена</span> : <span>Перейти</span>}</Link>
 	},
 	{
 		title: 'Мероприятие',
@@ -68,6 +72,7 @@ const columns: TableProps<ParticipationActivityTableDataType>['columns'] = [
 
 export function ParticipationActivitiesTable({ participationActivities }: ParticipationActivitiesTableProps) {
 	const [data, setData] = useState<ParticipationActivityTableDataType[]>();
+	const { role } = useSelector((s: RootState) => s.user);
 
 	useEffect(() => {
 		const data = participationActivities?.map<ParticipationActivityTableDataType>(item => ({
@@ -80,7 +85,8 @@ export function ParticipationActivitiesTable({ participationActivities }: Partic
 			result: getParticipationActivityResultToString(item.result),
 			date: item.date ? item.date.split('T')[0] : '',
 			creationDate: item.creationDate.split('T')[0],
-			updateDate: item.updateDate.split('T')[0]
+			updateDate: item.updateDate.split('T')[0],
+			isNeedCheck: item.status === ParticipationActivityStatus.Submitted && role === Role.Manager
 		}));
 		setData(data);
 	}, [participationActivities]);

@@ -43,3 +43,7 @@ export function getColorStatus(status: string) {
 	}
 	}
 }
+
+export function IsNeedCheckStatus(status: string) {
+	return status === 'Подано';
+}

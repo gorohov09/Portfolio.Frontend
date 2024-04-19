@@ -55,6 +55,12 @@ export const addUserCountNotification = createAsyncThunk('user/addUserCountNotif
 	}
 );
 
+export const removeUserCountNotification = createAsyncThunk('user/removeUserCountNotification',
+	async (params: {count: number}) => {
+		return params.count;
+	}
+);
+
 export const userSlice = createSlice({
 	name: 'user',
 	initialState,
@@ -80,8 +86,11 @@ export const userSlice = createSlice({
 			state.fullName = action.payload.fullName ?? null;
 			state.notificationCount = action.payload.notificationCount;
 		});
-		builder.addCase(addUserCountNotification.fulfilled, (state, action: PayloadAction<number>) => {
-			state.notificationCount = action.payload;
+		builder.addCase(addUserCountNotification.fulfilled, (state) => {
+			state.notificationCount = state.notificationCount + 1;
+		});
+		builder.addCase(removeUserCountNotification.fulfilled, (state, action: PayloadAction<number>) => {
+			state.notificationCount -= action.payload;
 		});
 	}
 });
