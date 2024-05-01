@@ -1,6 +1,7 @@
 .wrapper-main {
     display: flex;
     min-height: 100vh;
+    background-color: rgb(209, 229, 255);
 }
 
 .wrapper-sidebar {
@@ -10,4 +11,5 @@
 .main-content {
     background-color: rgb(209, 229, 255);
     width: 100%;
+    border-left: 1px solid var(--separator-color);
 }

@@ -15,6 +15,7 @@
     display: flex;
     flex-direction: column;
     border-bottom: 2px solid var(--separator-color);
+    padding-bottom: 15px;
 }
 
 .fio {
@@ -25,4 +26,9 @@
 .lastname_firstname {
     display: flex;
     gap: 8px;
+}
+
+.activities {
+    display: flex;
+    gap: 25px;
 }

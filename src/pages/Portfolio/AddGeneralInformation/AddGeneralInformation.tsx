@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import Headling from '../../../components/Headling/Headling';
 import { Button, Input } from 'antd';
 import axios, { AxiosError } from 'axios';
-import { Portfolio } from '../../../core/interfaces/portfolio/portfolio.interface';
+import { PortfolioInterface } from '../../../core/interfaces/portfolio/portfolio.interface';
 import { PREFIX } from '../../../helpers/API';
 import { userActions } from '../../../store/slices/user.slice';
 
@@ -25,7 +25,7 @@ export function AddGeneralInformation() {
 
 	const getPortfolio = async () => {
 		try {
-			const {data} = await axios.get<Portfolio>(`${PREFIX}/Portfolio/MyPortfolio`, {
+			const {data} = await axios.get<PortfolioInterface>(`${PREFIX}/Portfolio/MyPortfolio`, {
 				headers: {
 					'Authorization': `Bearer ${jwt}`
 				}

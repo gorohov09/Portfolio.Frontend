@@ -1,9 +1,8 @@
 .sidebar {
     padding: 20px;
-	border-right: 1px solid var(--separator-color);
+    border-bottom: 1px solid var(--separator-color);
     display: flex;
 	flex-direction: column;
-    min-height: 100vh;
     background-color: rgb(209, 229, 255);
 }
 
