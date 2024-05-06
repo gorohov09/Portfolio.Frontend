@@ -7,26 +7,41 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { PREFIX } from '../../helpers/API';
 import { getEducationLevelToString } from '../../core/enums/portfolio/educationLevel.enum';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { userActions } from '../../store/slices/user.slice';
 import { ParticipationActivityCard } from '../../components/ParticipationActivityCard/ParticipationActivityCard';
 import { ActivitySection } from '../../core/enums/activity/activitySection.enum';
+import { Role } from '../../core/enums/role.enum';
+import Headling from '../../components/Headling/Headling';
 
 export function Portfolio() {
 	const [portfolio, setPortfolio] = useState<PortfolioInterface>();
-	const jwt = useSelector((s: RootState) => s.user.jwt);
+	const {jwt, role} = useSelector((s: RootState) => s.user);
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
+	const { id } = useParams();
 
 	const getPortfolio = async () => {
 		try {
-			const {data} = await axios.get<PortfolioInterface>(`${PREFIX}/Portfolio/MyPortfolio`, {
-				headers: {
-					'Authorization': `Bearer ${jwt}`
-				}
-			});
-			console.log(data);
-			setPortfolio(data);
+			if (id === null) {
+				const {data} = await axios.get<PortfolioInterface>(`${PREFIX}/Portfolio/MyPortfolio`, {
+					headers: {
+						'Authorization': `Bearer ${jwt}`
+					}
+				});
+				console.log(data);
+				setPortfolio(data);
+			}
+			else {
+				const {data} = await axios.get<PortfolioInterface>(`${PREFIX}/Portfolio/MyPortfolio/${id}`, {
+					headers: {
+						'Authorization': `Bearer ${jwt}`
+					}
+				});
+				console.log(data);
+				setPortfolio(data);
+			}
+			
 		} catch (e) {
 			if (e instanceof AxiosError) {
 				if (e.response?.status == 401) {
@@ -63,10 +78,15 @@ export function Portfolio() {
 
 	return (
 		<div className={styles['portfolio']}>
+			{
+				role != Role.Student ? <Headling>Портфолио студента</Headling> : <></>
+			}
 			<div className={styles['information-block']}>
 				<div className={styles['header']}>
 					<h3>Основная информация</h3>
-					<Button onClick={() => navigate('/addGeneralInformation')}>Изменить</Button>
+					{
+						role === Role.Student ? <Button onClick={() => navigate('/addGeneralInformation')}>Изменить</Button> : <></>
+					}
 				</div>
 				<div className={styles['fio']}>
 					<div className={styles['lastname_firstname']}>
@@ -85,7 +105,9 @@ export function Portfolio() {
 			<div className={styles['information-block']}>
 				<div className={styles['header']}>
 					<h3>Информация о получаемом образовании в КНИТУ-КАИ</h3>
-					<Button onClick={() => navigate('/addEducationInformation')}>Изменить</Button>
+					{
+						role === Role.Student ? <Button onClick={() => navigate('/addEducationInformation')}>Изменить</Button> : <></>
+					}
 				</div>
 				<div className={styles['institute']}>
 					<p><b>Полное название инстиутута:</b> {portfolio?.institute ? portfolio?.institute?.fullName : 'Не заполнено'}</p>

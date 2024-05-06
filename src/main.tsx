@@ -22,6 +22,7 @@ import { Activities } from './pages/Activity/Activities/Activities';
 import { ActivitySingle } from './pages/Activity/ActivitySingle/ActivitySingle';
 import { AddActivity } from './pages/Activity/AddActivity/AddActivity';
 import { Notifications } from './pages/Notification/Notifications';
+import { SearchPortfolio } from './pages/SearchPortfolio/SearchPortfolio';
 
 const router = createBrowserRouter([
 	{
@@ -111,6 +112,14 @@ const router = createBrowserRouter([
 			{
 				path: '/admin/notifications',
 				element: <Notifications />
+			},
+			{
+				path: '/admin/portfolios',
+				element: <SearchPortfolio />
+			},
+			{
+				path: '/admin/portfolio/:id',
+				element: <Portfolio />
 			}
 		]
 	}
