@@ -43,3 +43,17 @@ export interface PortfolioParticipationActivityDocument {
     id: Guid;
     fileId: Guid;
 }
+
+export interface PortfolioList {
+    entities: PortfolioListItem[];
+    totalCount: number;
+}
+
+export interface PortfolioListItem {
+    id: Guid;
+    fullName: string;
+    instituteName: string;
+    facultyName: string;
+    groupNumber: string;
+    specialityName: string;
+}

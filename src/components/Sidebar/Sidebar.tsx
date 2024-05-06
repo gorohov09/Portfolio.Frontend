@@ -22,8 +22,8 @@ export function Sidebar() {
 	return (
 		<div className={styles['sidebar']}>
 			<div className={styles['user']}>
-				<img src="/avatar.png" alt="Аватар пользователя" />
-				<div className={styles['name']}>{ fullName }</div>
+				<div className={styles['name']}>{ role === Role.Student ? fullName : <>Администрация университета</> }</div>
+				<div className={styles['role']}>{ role === Role.Student ? <>(Студент)</> : <>(Сотрудник)</> }</div>
 			</div>
 			<div className={styles['menu']}>
 				{
@@ -35,7 +35,7 @@ export function Sidebar() {
 							})}>
 								<div className={styles['menu-item']}>
 									<BookTwoTone className={styles['menu-item-icon']}/>
-									<span className={styles['menu-item-text']}>Мое портфолио</span>
+									<span className={styles['menu-item-text']}>Портфолио</span>
 								</div>    
 							</NavLink>
 
@@ -74,6 +74,15 @@ export function Sidebar() {
 								<div className={styles['menu-item']}>
 									<CarryOutTwoTone className={styles['menu-item-icon']}/>
 									<span className={styles['menu-item-text']}>Проверки</span>
+								</div>    
+							</NavLink>
+
+							<NavLink to='/admin/portfolios' className={({ isActive }) => cn(styles['link'], {
+								[styles.active]: isActive
+							})}>
+								<div className={styles['menu-item']}>
+									<CarryOutTwoTone className={styles['menu-item-icon']}/>
+									<span className={styles['menu-item-text']}>Портфолио</span>
 								</div>    
 							</NavLink>
 						</>
