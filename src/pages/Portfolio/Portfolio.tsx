@@ -23,7 +23,7 @@ export function Portfolio() {
 
 	const getPortfolio = async () => {
 		try {
-			if (id === null) {
+			if (id === null || id === undefined) {
 				const {data} = await axios.get<PortfolioInterface>(`${PREFIX}/Portfolio/MyPortfolio`, {
 					headers: {
 						'Authorization': `Bearer ${jwt}`

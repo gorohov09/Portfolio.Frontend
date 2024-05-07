@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styles from './ActivityCard.module.css';
 import { ActivityCardProps } from './ActivityCard.props';
 import { getActivitySectionToString } from '../../core/enums/activity/activitySection.enum';
@@ -9,23 +9,21 @@ import { getActivityLevelToString } from '../../core/enums/activity/activityLeve
 export function ActivityCard({activity, isAdmin}: ActivityCardProps) {
 	
 	return (
-		<Link to={isAdmin ? `/admin/activities/${activity?.id}` : `/activities/${activity?.id}`} className={styles['link']}>
-			<div className={styles['card']}>
-				<div className={styles['head']}>
-					<div className={styles['section']}>
-						<span>{getActivitySectionToString(activity?.section)}</span>
-					</div>
-					<div className={styles['type']}>
-						<span>{getActivityTypeToString(activity?.type)}</span>
-					</div>
-					<div className={styles['level']}>
-						<span>{getActivityLevelToString(activity?.level)}</span>
-					</div>
+		<div className={styles['activity-card']}>
+			<div className={styles['header']}>
+				<NavLink to={isAdmin ? `/admin/activities/${activity?.id}` : `/activities/${activity?.id}`}>
+					<p>{activity?.name}</p>
+				</NavLink>
+			</div>
+			<div className={styles['body']}>
+				<div className={styles['left']}>
+					<p>{getActivitySectionToString(activity?.section)}</p>
+					<p>{getActivityTypeToString(activity?.type)}</p>
 				</div>
-				<div className={styles['footer']}>
-					<div className={styles['title']}>{activity?.name}</div>
+				<div className={styles['right']}>
+					<p>{getActivityLevelToString(activity?.level)}</p>
 				</div>
 			</div>
-		</Link>
+		</div>
 	);
 }

@@ -1,8 +1,19 @@
+import { ActivityLevel } from '../core/enums/activity/activityLevel.enum';
+import { ActivitySection } from '../core/enums/activity/activitySection.enum';
+import { ActivityType } from '../core/enums/activity/activityType.enum';
 import { ActivityBaseResponse } from '../core/interfaces/activities/activitiesBaseResponse.interface';
 import { Activity } from '../core/interfaces/activities/activity.interface';
 import { PREFIX } from '../helpers/API';
 import { ActivityInformationPost } from '../pages/Activity/AddActivity/AddActivity';
 import { useBaseRepository } from './useBaseRepository';
+
+export interface ActivityFilter 
+{
+	type: ActivityType;
+	section: ActivitySection;
+	level: ActivityLevel;
+	name: string | undefined;
+}
 
 export const useActivityRepository = () => {
 
@@ -13,8 +24,16 @@ export const useActivityRepository = () => {
 		return data; 
 	};
 
-	const getActivities = async (): Promise<Activity[] | undefined> => {
-		const {data} = await authorizedRequest<ActivityBaseResponse>(`${PREFIX}/Activity/list`);
+	const getActivities = async (filter: ActivityFilter): Promise<Activity[] | undefined> => {
+		const {data} = await authorizedRequest<ActivityBaseResponse>(`${PREFIX}/Activity/list`, {
+			method: 'POST',
+			data: {
+				name: filter.name,
+				type: filter.type,
+				section: filter.section,
+				level: filter.level
+			}
+		});
 		return data?.entities;
 	};
 

@@ -18,11 +18,11 @@ import { Main } from './pages/Main/Main';
 import { AddGeneralInformation } from './pages/Portfolio/AddGeneralInformation/AddGeneralInformation';
 import { AddEducationInformation } from './pages/Portfolio/AddEducationInformation/AddEducationInformation';
 import { AdminMain } from './pages/AdminMain/AdminMain';
-import { Activities } from './pages/Activity/Activities/Activities';
 import { ActivitySingle } from './pages/Activity/ActivitySingle/ActivitySingle';
 import { AddActivity } from './pages/Activity/AddActivity/AddActivity';
 import { Notifications } from './pages/Notification/Notifications';
 import { SearchPortfolio } from './pages/SearchPortfolio/SearchPortfolio';
+import { SearchActivity } from './pages/Activity/SearchActivity/SearchActivity';
 
 const router = createBrowserRouter([
 	{
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/activities',
-				element: <Activities />
+				element: <SearchActivity />
 			},
 			{
 				path: '/activities/:id',
@@ -89,7 +89,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/admin/activities',
-				element: <Activities />
+				element: <SearchActivity />
 			},
 			{
 				path: '/admin/addActivity',
