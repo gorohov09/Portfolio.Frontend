@@ -76,6 +76,8 @@ export function Portfolio() {
 
 	const sienceParticipationActivity = getParticipationActivities(ActivitySection.ScientificAndEducational);
 
+	console.log(sienceParticipationActivity);
+
 	return (
 		<div className={styles['portfolio']}>
 			{
@@ -135,7 +137,11 @@ export function Portfolio() {
 					<div className={styles['block']}>
 						<h4>Научная и учебная деятельность</h4>
 						<div className={styles['activities']}>
-							{sienceParticipationActivity}
+							{
+								sienceParticipationActivity?.length == 0 || sienceParticipationActivity == undefined
+									? <>Пусто</>
+									: sienceParticipationActivity
+							}
 						</div>
 					</div>
 				</div>
