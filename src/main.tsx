@@ -62,6 +62,10 @@ const router = createBrowserRouter([
 			{
 				path: '/activities/:id',
 				element: <ActivitySingle />
+			},
+			{
+				path: '/notifications',
+				element: <Notifications />
 			}
 		]
 	},
